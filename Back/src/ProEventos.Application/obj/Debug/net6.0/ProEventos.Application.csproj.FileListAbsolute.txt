@@ -1,0 +1,17 @@
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\bin\Debug\net6.0\ProEventos.Application.deps.json
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\bin\Debug\net6.0\ProEventos.Application.dll
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\bin\Debug\net6.0\ProEventos.Application.pdb
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\obj\Debug\net6.0\ProEventos.Application.csproj.AssemblyReference.cache
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\obj\Debug\net6.0\ProEventos.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\obj\Debug\net6.0\ProEventos.Application.AssemblyInfoInputs.cache
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\obj\Debug\net6.0\ProEventos.Application.AssemblyInfo.cs
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\obj\Debug\net6.0\ProEventos.Application.csproj.CoreCompileInputs.cache
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\obj\Debug\net6.0\ProEventos.Application.dll
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\obj\Debug\net6.0\refint\ProEventos.Application.dll
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\obj\Debug\net6.0\ProEventos.Application.pdb
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\obj\Debug\net6.0\ref\ProEventos.Application.dll
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\bin\Debug\net6.0\ProEventos.Domain.dll
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\bin\Debug\net6.0\ProEventos.Persistence.dll
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\bin\Debug\net6.0\ProEventos.Domain.pdb
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\bin\Debug\net6.0\ProEventos.Persistence.pdb
+C:\Users\Marcos Macedo\Desktop\Arquivos\dotnet\PROEVENTOS\Back\src\ProEventos.Application\obj\Debug\net6.0\ProEventos.Application.csproj.CopyComplete

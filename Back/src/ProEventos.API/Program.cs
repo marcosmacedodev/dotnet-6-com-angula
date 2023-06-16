@@ -1,12 +1,22 @@
-using ProEventos.API.Context;
 using Microsoft.EntityFrameworkCore;
+using ProEventos.Application.Contracts;
+using ProEventos.Application.Services;
+using ProEventos.Persistence.Contexts;
+using ProEventos.Persistence.Contracts;
+using ProEventos.Persistence.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<DataContext>(context => context.UseInMemoryDatabase("EventoList"));
-builder.Services.AddControllers();
+builder.Services.AddDbContext<ProEventosContext>(context => context.UseInMemoryDatabase("EventoList"));
+builder.Services.AddControllers()
+.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+builder.Services.AddScoped<IEventoService, EventoService>();
+builder.Services.AddScoped<IRepository, RepositoryImpl>();
+builder.Services.AddScoped<IRepositoryEvento, RepositoryEventoImpl>();
+
 builder.Services.AddCors();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
