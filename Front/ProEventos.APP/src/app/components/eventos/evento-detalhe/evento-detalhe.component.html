@@ -1,43 +1,141 @@
-<form>
+<form [formGroup]="Form">
   <div class="p-3">
     <div class="form-row">
       <div class="form-group col-md-12">
         <label>Tema</label>
-        <input type="text" class="form-control" placeholder="Insira o Tema">
+        <input type="text" class="form-control" formControlName="tema" placeholder="Insira o Tema">
+        <div *ngIf="getField('tema')?.invalid && (getField('tema')?.dirty || getField('tema')?.touched)"
+            class="alert alert-danger">
+          Tema
+          <div *ngIf="getField('tema')?.errors?.['required']" class="d-inline">
+            é obrigatório
+          </div>
+          <div *ngIf="getField('tema')?.errors?.['minlength']" class="d-inline">
+            deve ter pelo menos 4 caracteres.
+          </div>
+          <div *ngIf="getField('tema')?.errors?.['maxlength']" class="d-inline">
+            deve ter no máximo 50 caracteres
+          </div>
+        </div>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-8">
         <label>Local</label>
-        <input type="text" class="form-control" placeholder="">
+        <input type="text" class="form-control" formControlName="local" placeholder="">
+        <div *ngIf="getField('local')?.invalid && (getField('local')?.dirty || getField('local')?.touched)"
+            class="alert alert-danger">
+          Local
+          <div *ngIf="getField('local')?.errors?.['required']" class="d-inline">
+            é obrigatório
+          </div>
+          <!-- <div *ngIf="form.get('local')?.errors?.['minlength']" class="d-inline">
+            deve ter pelo menos 4 caracteres.
+          </div>
+          <div *ngIf="form.get('local')?.errors?.['maxlength']" class="d-inline">
+            deve ter no máximo 50 caracteres
+          </div> -->
+        </div>
       </div>
       <div class="form-group col-md-4">
         <label>Data e Hora</label>
-        <input type="datetime" class="form-control" placeholder="">
+        <input type="datetime" class="form-control" formControlName="dataEvento" placeholder="">
+          <div *ngIf="getField('dataEvento')?.invalid && (getField('dataEvento')?.dirty || getField('dataEvento')?.touched)"
+            class="alert alert-danger">
+            Data e Hora
+            <div *ngIf="getField('dataEvento')?.errors?.['required']" class="d-inline">
+              é obrigatório
+            </div>
+          <!-- <div *ngIf="form.get('local')?.errors?.['minlength']" class="d-inline">
+            deve ter pelo menos 4 caracteres.
+          </div>
+          <div *ngIf="form.get('local')?.errors?.['maxlength']" class="d-inline">
+            deve ter no máximo 50 caracteres
+          </div> -->
+          </div>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-2">
         <label>Qtd Pessoas</label>
-        <input type="text" class="form-control is-invalid" placeholder="">
+        <input type="number" class="form-control" formControlName="qtdPessoas" placeholder="">
+        <div *ngIf="getField('qtdPessoas')?.invalid && (getField('qtdPessoas')?.dirty || getField('qtdPessoas')?.touched)"
+        class="alert alert-danger">
+      Qtd Pessoas
+      <div *ngIf="getField('qtdPessoas')?.errors?.['required']" class="d-inline">
+        é obrigatório
+      </div>
+      <div *ngIf="getField('qtdPessoas')?.errors?.['min'] || getField('qtdPessoas')?.errors?.['max']" class="d-inline">
+        deve ser entre 1 e 120000 pessoas.
+      </div>
+      <!--
+      <div *ngIf="form.get('local')?.errors?.['maxlength']" class="d-inline">
+        deve ter no máximo 50 caracteres
+      </div> -->
+    </div>
       </div>
       <div class="form-group col-md-4">
         <label>Telefone</label>
-        <input type="text" class="form-control" placeholder="(000) 90000-0000">
+        <input type="text" class="form-control" formControlName="telefone" placeholder="(000) 90000-0000">
+        <div *ngIf="getField('telefone')?.invalid && (getField('telefone')?.dirty || getField('telefone')?.touched)"
+        class="alert alert-danger">
+          Telefone
+          <div *ngIf="getField('telefone')?.errors?.['required']" class="d-inline">
+            é obrigatório
+          </div>
+        <!-- <div *ngIf="form.get('local')?.errors?.['minlength']" class="d-inline">
+          deve ter pelo menos 4 caracteres.
+        </div>
+        <div *ngIf="form.get('local')?.errors?.['maxlength']" class="d-inline">
+          deve ter no máximo 50 caracteres
+        </div> -->
+        </div>
       </div>
       <div class="form-group col-md-6">
         <label>Email</label>
-        <input type="text" class="form-control" placeholder="e-mail">
+        <input type="text" class="form-control" formControlName="email" placeholder="e-mail">
+        <div *ngIf="getField('email')?.invalid && (getField('email')?.dirty || getField('email')?.touched)"
+        class="alert alert-danger">
+          E-mail
+          <div *ngIf="getField('email')?.errors?.['required']" class="d-inline">
+            é obrigatório
+          </div>
+       <div *ngIf="getField('email')?.errors?.['email']" class="d-inline">
+          inválido.
+        </div>
+        <!--
+        <div *ngIf="form.get('local')?.errors?.['maxlength']" class="d-inline">
+          deve ter no máximo 50 caracteres
+        </div> -->
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label>imagem</label>
+        <input type="text" class="form-control" formControlName="imagemURL" placeholder="Imagem">
+        <div *ngIf="getField('imagemURL')?.invalid && (getField('imagemURL')?.dirty || getField('imagemURL')?.touched)"
+        class="alert alert-danger">
+        Imagem
+        <div *ngIf="getField('imagemURL')?.errors?.['required']" class="d-inline">
+          é obrigatório
+        </div>
+        <!-- <div *ngIf="form.get('local')?.errors?.['minlength']" class="d-inline">
+          deve ter pelo menos 4 caracteres.
+        </div>
+        <div *ngIf="form.get('local')?.errors?.['maxlength']" class="d-inline">
+          deve ter no máximo 50 caracteres
+        </div> -->
+        </div>
       </div>
     </div>
+
   </div>
   <div class="card-footer">
     <div class="d-flex">
-      <button class="btn btn-outline-secondary mr-auto border">
+      <button class="btn btn-outline-secondary mr-auto border" (click)="Form.reset()">
         Cancelar Alteração
       </button>
-      <button class="btn btn-success">
-        <span class="spinner-border spinner-border-sm mr-1"></span>
+      <button class="btn btn-success" [disabled]="!Form.valid">
+        <!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
         Salvar Evento
       </button>
     </div>
