@@ -11,7 +11,7 @@ namespace ProEventos.Persistence.Services
         public RepositoryPalestranteImpl(ProEventosContext context) {
             _context = context;
         }
-        public async Task<Palestrante[]> GetAllPalestrantesAsync(bool includeEventos = false)
+        public async Task<Palestrante[]> GetAllPalestrantesAsync(bool includeEventos)
         {
             IQueryable<Palestrante> query = _context.Palestrantes
             .Include(p => p.RedeSociais);
@@ -21,7 +21,7 @@ namespace ProEventos.Persistence.Services
             return await query.OrderBy(p => p.Id).ToArrayAsync();
         }
 
-        public async Task<Palestrante[]> GetAllEventosByNomeAsync(string nome, bool includeEventos = false)
+        public async Task<Palestrante[]> GetAllEventosByNomeAsync(string nome, bool includeEventos)
         {
             IQueryable<Palestrante> query = _context.Palestrantes
             .Include(p => p.RedeSociais)
@@ -32,7 +32,7 @@ namespace ProEventos.Persistence.Services
             return await query.OrderBy(p => p.Id).ToArrayAsync();
         }
 
-        public async Task<Palestrante> GetPalestranteByIdAsync(int id, bool includeEventos = false)
+        public async Task<Palestrante> GetPalestranteByIdAsync(int id, bool includeEventos)
         {
             IQueryable<Palestrante> query = _context.Palestrantes
             .Include(p => p.RedeSociais)

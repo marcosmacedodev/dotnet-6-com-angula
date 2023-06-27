@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProEventos.Persistence;
 using ProEventos.Domain;
 using ProEventos.Application.Contracts;
+using ProEventos.Domain.Dtos;
 
 namespace ProEventos.API.Controllers
 {
@@ -20,32 +21,32 @@ namespace ProEventos.API.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAll(){
-            return Ok(await _service.GetAllEventosAsync(true));
+            return Ok(await _service.GetAllEventosAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id){
-            Evento evento = await _service.GetEventoByIdAsync(id, false);
+            EventoDto evento = await _service.GetEventoByIdAsync(id);
             if (evento == null) return NotFound();
             return Ok(evento);
         }
         
         [HttpGet("{tema}/tema")]
         public async Task<IActionResult> GetsByTema(string tema){
-            Evento [] eventos = await _service.GetAllEventosByTemaAsync(tema, true);
+            EventoDto [] eventos = await _service.GetAllEventosByTemaAsync(tema);
             if (eventos == null) return NotFound();
             return Ok(eventos);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Evento evento){
+        public async Task<IActionResult> Create([FromBody] EventoDto evento){
             evento = await _service.AddEvento(evento);
             if (evento == null) return BadRequest();
             return CreatedAtAction(nameof(Get), new {id = evento.Id}, evento);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Evento evento){
+        public async Task<IActionResult> Update(int id, [FromBody] EventoDto evento){
             evento = await _service.UpdateEvento(id, evento);
             if (evento == null) return NotFound();
             return NoContent();

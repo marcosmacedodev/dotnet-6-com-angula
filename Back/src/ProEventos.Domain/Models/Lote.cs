@@ -1,9 +1,12 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ProEventos.Domain
 {
+    [Table("lotes")]
     public class Lote
     {
         public int Id { get; set; }
-        public string Nome { get; set; }
+        public string? Nome { get; set; }
         public decimal preco { get; set; }
         public DateTime? DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
