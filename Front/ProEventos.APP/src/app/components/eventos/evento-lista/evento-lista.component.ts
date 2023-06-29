@@ -2,6 +2,7 @@ import { Component, TemplateRef } from '@angular/core';
 import { Evento } from 'src/app/models/Evento';
 import { EventoService } from 'src/app/services/evento.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-evento-lista',
@@ -13,19 +14,41 @@ export class EventoListaComponent {
   public eventos: Evento[] = [];
   public eventosFiltrado: Evento[] = [];
   private _filtroLista: string = '';
+  private _eventoId: number = 0;
   modalRef?: BsModalRef;
 
-  constructor(private eventoService: EventoService, private modalService: BsModalService){}
+  constructor(
+    private eventoService: EventoService,
+    private modalService: BsModalService,
+    private toastr: ToastrService
+    ){}
 
   ngOnInit(): void {
     this.getEventos();
   }
 
-  openModal(template: TemplateRef<any>) {
+  public deleteEvento(): void{
+    this.eventoService.deleteEvento(this._eventoId).subscribe({
+      next: (response: Evento) => {
+        this.getEventos();
+        this.toastr.success(`Código de evento: ${this._eventoId}, removido`, 'Excluir');
+      },
+      error: (err) => {},
+      complete: () => {}
+    });
+  }
+
+  public get eventoId(): number{
+    return this._eventoId;
+  }
+
+  openModal(template: TemplateRef<any>, eventoId: number) {
+    this._eventoId = eventoId;
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
   confirm(): void {
+    this.deleteEvento();
     this.modalRef?.hide();
   }
 

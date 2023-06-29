@@ -1,3 +1,6 @@
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
+defineLocale('pt-br', ptBrLocale);
 //----------------------------Modules--------------------------------------------//
 import { NgModule, Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -8,6 +11,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { AppRoutingModule } from './app-routing.module';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ToastrModule } from 'ngx-toastr';
 //-------------------------Components-------------------------------------------------//
 import { AppComponent } from './app.component';
 import { EventosComponent } from './components/eventos/eventos.component';
@@ -50,7 +55,10 @@ import { RegistrationComponent } from './components/user/registration/registrati
     FormsModule,
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    ToastrModule.forRoot({positionClass: 'toast-bottom-right',
+    preventDuplicates: true})
   ],
   providers: [],
   bootstrap: [AppComponent]

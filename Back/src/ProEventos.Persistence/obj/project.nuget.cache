@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6bRM1PvdUi71X9ekQYToQ9WA+a9ultxOR0OB846ZS+JvOTZvOXUUTmk6sv9+u/W5FjrHtLlGGf5cGjmY/69cVg==",
+  "dgSpecHash": "jpduq3dAO+I3Uau6OFxVHHowqc+7OSnj1LFNDCUyW3nZ9mf71JQQ/QH4tatN4t5N9ObURGwarYo7teBp4fu/5w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Marcos Macedo\\Desktop\\Arquivos\\dotnet\\PROEVENTOS\\back\\src\\ProEventos.Persistence\\ProEventos.Persistence.csproj",
+  "projectFilePath": "C:\\Users\\Marcos Macedo\\Desktop\\Arquivos\\dotnet\\PROEVENTOS\\Back\\src\\ProEventos.Persistence\\ProEventos.Persistence.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Marcos Macedo\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.4\\microsoft.entityframeworkcore.6.0.4.nupkg.sha512",
     "C:\\Users\\Marcos Macedo\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.4\\microsoft.entityframeworkcore.abstractions.6.0.4.nupkg.sha512",

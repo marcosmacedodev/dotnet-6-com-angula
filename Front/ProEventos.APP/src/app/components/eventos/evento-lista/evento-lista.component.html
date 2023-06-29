@@ -28,12 +28,12 @@
       <td class="d-none d-md-table-cell">{{evento.imagemUrl}}</td>
       <td>{{evento.tema}}</td>
       <td class="d-none d-md-table-cell">{{evento.local}}</td>
-      <td>{{evento.dataEvento | dateTimeFormat}}</td>
+      <td>{{evento.dataEvento}}</td>
       <td class="d-none d-md-table-cell">{{evento.qtdPessoas}}</td>
       <td class="d-none d-md-table-cell">{{evento.lotes}}</td>
       <td>
         <a type="button" class="btn btn-primary btn-sm d-none d-md-inline" routerLink="../detalhe/{{evento.id}}">Editar</a>
-        <button type="button" class="btn btn-danger btn-sm" (click)="openModal(template)">Excluir</button>
+        <button type="button" class="btn btn-danger btn-sm" (click)="openModal(template, evento.id)">Excluir</button>
       </td>
     </tr>
   </tbody>
@@ -41,8 +41,8 @@
 
 <ng-template #template>
   <div class="modal-body text-center">
-    <p>Do you want to confirm?</p>
-    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
-    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+    <p>Deseja remover evento com id: {{eventoId}}?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Sim</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >Não</button>
   </div>
 </ng-template>

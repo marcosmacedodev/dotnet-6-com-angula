@@ -12,7 +12,6 @@ namespace ProEventos.Application.Services
         public EventoService(IRepository repository, IRepositoryEvento repositoryEvento){
             _repositoryEvento = repositoryEvento;
             _repository = repository;
-
         }
 
         private EventoDto ToEventoDto(Evento evento){
@@ -22,6 +21,7 @@ namespace ProEventos.Application.Services
                 Local = evento.Local,
                 DataEvento = evento.DataEvento.ToString(),
                 Tema = evento.Tema,
+                Email = evento.Email,
                 QtdPessoas = evento.QtdPessoas,
                 ImagemUrl = evento.ImagemUrl,
                 Telefone = evento.Telefone,
@@ -36,6 +36,7 @@ namespace ProEventos.Application.Services
                 Local = evento.Local,
                 DataEvento = DateTime.Parse(evento.DataEvento),
                 Tema = evento.Tema,
+                Email = evento.Email,
                 QtdPessoas = evento.QtdPessoas,
                 ImagemUrl = evento.ImagemUrl,
                 Telefone = evento.Telefone,

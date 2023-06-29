@@ -1,4 +1,5 @@
-<form [formGroup]="Form">
+
+<form [formGroup]="form">
   <div class="p-3">
     <div class="form-row">
       <div class="form-group col-md-12">
@@ -39,7 +40,7 @@
       </div>
       <div class="form-group col-md-4">
         <label>Data e Hora</label>
-        <input type="datetime" class="form-control" formControlName="dataEvento" placeholder="">
+        <input type="datetime" class="form-control" formControlName="dataEvento" placeholder="" bsDatepicker [bsConfig]=" bsConfig">
           <div *ngIf="getField('dataEvento')?.invalid && (getField('dataEvento')?.dirty || getField('dataEvento')?.touched)"
             class="alert alert-danger">
             Data e Hora
@@ -111,11 +112,11 @@
       </div>
       <div class="form-group col-md-6">
         <label>imagem</label>
-        <input type="text" class="form-control" formControlName="imagemURL" placeholder="Imagem">
-        <div *ngIf="getField('imagemURL')?.invalid && (getField('imagemURL')?.dirty || getField('imagemURL')?.touched)"
+        <input type="text" class="form-control" formControlName="imagemUrl" placeholder="Imagem">
+        <div *ngIf="getField('imagemUrl')?.invalid && (getField('imagemUrl')?.dirty || getField('imagemUrl')?.touched)"
         class="alert alert-danger">
         Imagem
-        <div *ngIf="getField('imagemURL')?.errors?.['required']" class="d-inline">
+        <div *ngIf="getField('imagemUrl')?.errors?.['required']" class="d-inline">
           é obrigatório
         </div>
         <!-- <div *ngIf="form.get('local')?.errors?.['minlength']" class="d-inline">
@@ -131,10 +132,10 @@
   </div>
   <div class="card-footer">
     <div class="d-flex">
-      <button class="btn btn-outline-secondary mr-auto border" (click)="Form.reset()">
+      <button class="btn btn-outline-secondary mr-auto border" (click)="form.reset()">
         Cancelar Alteração
       </button>
-      <button class="btn btn-success" [disabled]="!Form.valid">
+      <button class="btn btn-success" [disabled]="!form.valid" (click)="onSubmit()">
         <!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
         Salvar Evento
       </button>
