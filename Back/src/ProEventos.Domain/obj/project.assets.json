@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Marcos Macedo\\Desktop\\Arquivos\\dotnet\\PROEVENTOS\\back\\src\\ProEventos.Domain\\ProEventos.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\Marcos Macedo\\Desktop\\Arquivos\\dotnet\\PROEVENTOS\\Back\\src\\ProEventos.Domain\\ProEventos.Domain.csproj",
       "projectName": "ProEventos.Domain",
-      "projectPath": "C:\\Users\\Marcos Macedo\\Desktop\\Arquivos\\dotnet\\PROEVENTOS\\back\\src\\ProEventos.Domain\\ProEventos.Domain.csproj",
+      "projectPath": "C:\\Users\\Marcos Macedo\\Desktop\\Arquivos\\dotnet\\PROEVENTOS\\Back\\src\\ProEventos.Domain\\ProEventos.Domain.csproj",
       "packagesPath": "C:\\Users\\Marcos Macedo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Marcos Macedo\\Desktop\\Arquivos\\dotnet\\PROEVENTOS\\back\\src\\ProEventos.Domain\\obj\\",
+      "outputPath": "C:\\Users\\Marcos Macedo\\Desktop\\Arquivos\\dotnet\\PROEVENTOS\\Back\\src\\ProEventos.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Marcos Macedo\\AppData\\Roaming\\NuGet\\NuGet.Config"

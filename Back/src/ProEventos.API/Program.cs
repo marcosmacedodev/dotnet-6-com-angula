@@ -14,8 +14,12 @@ builder.Services.AddControllers()
 .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 builder.Services.AddScoped<IEventoService, EventoService>();
+builder.Services.AddScoped<ILoteService, LoteService>();
+
 builder.Services.AddScoped<IRepository, RepositoryImpl>();
 builder.Services.AddScoped<IRepositoryEvento, RepositoryEventoImpl>();
+builder.Services.AddScoped<IRepositoryLote, RepositoryLoteImpl>();
+
 
 builder.Services.AddCors();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -30,6 +34,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//app.UseExceptionHandler("/error");
 
 app.UseHttpsRedirection();
 

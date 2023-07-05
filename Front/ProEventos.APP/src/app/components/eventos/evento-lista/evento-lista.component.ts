@@ -1,3 +1,4 @@
+import { LoteService } from './../../../services/lote.service';
 import { Component, TemplateRef } from '@angular/core';
 import { Evento } from 'src/app/models/Evento';
 import { EventoService } from 'src/app/services/evento.service';
@@ -15,7 +16,7 @@ export class EventoListaComponent {
   public eventosFiltrado: Evento[] = [];
   private _filtroLista: string = '';
   private _eventoId: number = 0;
-  modalRef?: BsModalRef;
+  private modalRef?: BsModalRef;
 
   constructor(
     private eventoService: EventoService,
@@ -25,6 +26,7 @@ export class EventoListaComponent {
 
   ngOnInit(): void {
     this.getEventos();
+
   }
 
   public deleteEvento(): void{

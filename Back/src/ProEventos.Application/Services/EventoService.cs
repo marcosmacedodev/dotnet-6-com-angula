@@ -13,44 +13,45 @@ namespace ProEventos.Application.Services
             _repositoryEvento = repositoryEvento;
             _repository = repository;
         }
-
-        private EventoDto ToEventoDto(Evento evento){
+        private EventoDto ToEventoDto(Evento entity)
+        {
+            if (entity == null) return null;
             return new EventoDto()
             {
-                Id = evento.Id,
-                Local = evento.Local,
-                DataEvento = evento.DataEvento.ToString(),
-                Tema = evento.Tema,
-                Email = evento.Email,
-                QtdPessoas = evento.QtdPessoas,
-                ImagemUrl = evento.ImagemUrl,
-                Telefone = evento.Telefone,
+                Id = entity.Id,
+                Local = entity.Local,
+                DataEvento = entity.DataEvento.ToString(),
+                Tema = entity.Tema,
+                Email = entity.Email,
+                QtdPessoas = entity.QtdPessoas,
+                ImagemUrl = entity.ImagemUrl,
+                Telefone = entity.Telefone,
             };
         }
-
-        private Evento ToEvento(EventoDto evento)
+        private Evento ToEvento(EventoDto entity)
         {
+            if (entity == null) return null;
+            DateTime dataEvento;
             return new Evento()
             {
-                Id = evento.Id,
-                Local = evento.Local,
-                DataEvento = DateTime.Parse(evento.DataEvento),
-                Tema = evento.Tema,
-                Email = evento.Email,
-                QtdPessoas = evento.QtdPessoas,
-                ImagemUrl = evento.ImagemUrl,
-                Telefone = evento.Telefone,
+                Id = entity.Id,
+                Local = entity.Local,
+                DataEvento = DateTime.TryParse(entity.DataEvento, out dataEvento)? dataEvento : null,
+                Tema = entity.Tema,
+                Email = entity.Email,
+                QtdPessoas = entity.QtdPessoas,
+                ImagemUrl = entity.ImagemUrl,
+                Telefone = entity.Telefone,
             };
         }
-
-        public async Task<Evento> AddEvento(Evento evento)
+        public async Task<Evento> AddEvento(Evento entity)
         {
             try
             {
-                _repository.Add<Evento>(evento);
+                _repository.Add<Evento>(entity);
                 if (await _repository.SaveChangesAsync())
                 {
-                    return await GetEventoByIdAsync(evento.Id, false);
+                    return await GetEventoByIdAsync(entity.Id, false);
                 }
                 return null;
             }
@@ -59,24 +60,22 @@ namespace ProEventos.Application.Services
                 throw new Exception(ex.Message);
             }
         }
-
-        public async Task<EventoDto> AddEvento(EventoDto eventoDto)
+        public async Task<EventoDto> AddEvento(EventoDto entity)
         {
-            Evento evento = ToEvento(eventoDto);
+            Evento evento = ToEvento(entity);
             evento = await AddEvento(evento);
             return ToEventoDto(evento);
         }
-
-        public async Task<bool> DeleteEvento(Evento evento)
+        public async Task<bool> DeleteEvento(Evento entity)
         {
-            return await DeleteEventoById(evento.Id);
+            return await DeleteEventoById(entity.Id);
         }
-
         public async Task<bool> DeleteEventoById(int eventoId)
         {
             try
             {
                  Evento evento = await GetEventoByIdAsync(eventoId, false);
+                 if (evento == null) throw new Exception($"Evento {eventoId} não foi encontrado");
                 _repository.Delete<Evento>(evento);
                 return (await _repository.SaveChangesAsync());
             }
@@ -85,14 +84,19 @@ namespace ProEventos.Application.Services
                 throw new Exception(ex.Message);
             }
         }
-
-        public async Task<Evento> UpdateEvento(int eventoId, Evento evento)
+        public async Task<Evento> UpdateEvento(int eventoId, Evento entity)
         {
             try
             {
-                Evento e = await GetEventoByIdAsync(eventoId, false);
-                if (evento == null) return null;
-                evento.Id = eventoId;
+                Evento evento = await GetEventoByIdAsync(eventoId, false);
+                if (evento == null) throw new Exception($"Evento {eventoId} não foi encontrado");
+                evento.DataEvento = entity.DataEvento;
+                evento.Email = entity.Email;
+                evento.ImagemUrl = entity.ImagemUrl;
+                evento.Local = entity.Local;
+                evento.QtdPessoas = entity.QtdPessoas;
+                evento.Telefone = entity.Telefone;
+                evento.Tema = entity.Tema;
                 _repository.Update<Evento>(evento);
                 if (await _repository.SaveChangesAsync())
                 {
@@ -106,9 +110,9 @@ namespace ProEventos.Application.Services
             }
         }
 
-        public async Task<EventoDto> UpdateEvento(int eventoId, EventoDto eventoDto)
+        public async Task<EventoDto> UpdateEvento(int eventoId, EventoDto entity)
         {
-            Evento evento = ToEvento(eventoDto);
+            Evento evento = ToEvento(entity);
             evento = await UpdateEvento(eventoId, evento);
             return ToEventoDto(evento);
         }
@@ -124,20 +128,11 @@ namespace ProEventos.Application.Services
                 throw new Exception(ex.Message);
             }
         }
-
         public async Task<EventoDto[]> GetAllEventosAsync()
         {
             Evento[] eventos = await GetAllEventosAsync(false);
-
-            List<EventoDto> eventosDto = new List<EventoDto>();
-            foreach (Evento evento in eventos)
-            {
-                eventosDto.Add(ToEventoDto(evento));
-            }
-            return eventosDto.ToArray();
+            return eventos.Select(evento => ToEventoDto(evento)).ToArray();
         }
-
-
         public async Task<Evento[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes)
         {
             try
@@ -149,27 +144,18 @@ namespace ProEventos.Application.Services
                 throw new Exception(ex.Message);
             }
         }
-
         public async Task<EventoDto[]> GetAllEventosByTemaAsync(string tema)
         {
             Evento[] eventos = await GetAllEventosByTemaAsync(tema, false);
-
-            List<EventoDto> eventosDto = new List<EventoDto>();
             
-            foreach(Evento evento in eventos)
-            {
-                eventosDto.Add( ToEventoDto(evento));
-            }
-            return eventosDto.ToArray();
+            return eventos.Select(evento => ToEventoDto(evento)).ToArray();
         }
 
         public async Task<Evento> GetEventoByIdAsync(int id, bool includePalestrantes)
         {
             try
             {
-                Evento evento = await _repositoryEvento.GetEventoByIdAsync(id, includePalestrantes);
-                if (evento == null) return null;//throw new Exception($"Evento id: {id}, não encontrado");
-                return evento;
+                return await _repositoryEvento.GetEventoByIdAsync(id, includePalestrantes);
             }
             catch (Exception ex)
             {
