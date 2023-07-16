@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ProEventos.Domain;
 using Microsoft.EntityFrameworkCore;
 using ProEventos.Persistence.Contexts;

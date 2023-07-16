@@ -4,8 +4,8 @@ namespace ProEventos.Persistence.Contracts
 {
     public interface IRepositoryEvento
     {
-        Task<Evento []> GetAllEventosByTemaAsync(string tema, bool includePalestrantes);
-        Task<Evento []> GetAllEventosAsync(bool includePalestrantes);
-        Task<Evento> GetEventoByIdAsync(int id, bool includePalestrantes);
+        Task<Evento []> GetAllEventosByTemaAsync(int userId, string tema, bool includePalestrantes);
+        Task<Evento []> GetAllEventosAsync(int userId, bool includePalestrantes);
+        Task<Evento> GetEventoByIdAsync(int userId, int id, bool includePalestrantes);
     }
 }

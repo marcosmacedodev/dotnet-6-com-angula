@@ -25,7 +25,7 @@ namespace ProEventos.Persistence.Services
         {
             IQueryable<Palestrante> query = _context.Palestrantes
             .Include(p => p.RedeSociais)
-            .Where(p => p.Nome.ToLower().Contains(nome.ToLower()));
+            .Where(p => p.User.FirstName.ToLower().Contains(nome.ToLower()));
             if (includeEventos){
                 query = query.Include(p => p.PalestrantesEventos).ThenInclude(pe => pe.Evento);
             }

@@ -1,98 +1,128 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ProEventos.Persistence;
 using ProEventos.Domain;
 using ProEventos.Application.Contracts;
 using ProEventos.Domain.Dtos;
+using ProEventos.API.Utils;
+using ProEventos.Application.Services;
+using ProEventos.API.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProEventos.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class EventosController : ControllerBase
     {
         private readonly IEventoService _service;
-        //private readonly ILoteService _loteService;
-        public EventosController(IEventoService service/*, ILoteService loteService*/){
+        private readonly ILoteService _loteService;
+        private readonly UtilsServices _utils;
+        public EventosController(IEventoService service, ILoteService loteService, UtilsServices utils){
+            _utils = utils;
             _service = service;
-            //_loteService = loteService;
+            _loteService = loteService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll(){
-            return Ok(await _service.GetAllEventosAsync());
+            int userId = User.GetUserId();
+            return Ok(await _service.GetAllEventosAsync(userId));
         }
 
         [HttpGet("{eventoId}")]
         public async Task<IActionResult> Get(int eventoId){
-            EventoDto evento = await _service.GetEventoByIdAsync(eventoId);
+            int userId = User.GetUserId();
+            EventoDto evento = await _service.GetEventoDtoByIdAsync(userId, eventoId);
             if (evento == null) return NotFound();
             return Ok(evento);
         }
         
         [HttpGet("{tema}/tema")]
         public async Task<IActionResult> GetsByTema(string tema){
-            EventoDto [] eventos = await _service.GetAllEventosByTemaAsync(tema);
+            int userId = User.GetUserId();
+            EventoDto [] eventos = await _service.GetAllEventosDtoByTemaAsync(userId, tema);
             if (eventos == null) return NotFound();
             return Ok(eventos);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateEvento(EventoDto evento){
-            evento = await _service.AddEvento(evento);
+            int userId = User.GetUserId();
+            evento = await _service.AddEvento(userId, evento);
             if (evento == null) return BadRequest();
             return CreatedAtAction(nameof(Get), new {eventoId = evento.Id}, evento);
         }
 
-        [HttpPut("{eventoId}")]
-        public async Task<IActionResult> UpdateEvento(int eventoId, EventoDto evento){
-            evento = await _service.UpdateEvento(eventoId, evento);
+        [HttpPost("{eventoId}/upload-image")]
+        public async Task<IActionResult> UploadImage(int eventoId, IFormFile file){
+            int userId = User.GetUserId();
+            Evento evento = await _service.GetEventoByIdAsync(userId, eventoId);
             if (evento == null) return NotFound();
-            return Ok(evento);
+
+            if (file.Length > 0){
+                 _utils.DeleteImage(evento.ImagemUrl!);
+                 string path = await _utils.SaveImage(file);
+                 //string fullPath =  $"{(Request.IsHttps? "https": "http")}://{Request.Host.Value}/resources/images/{path}";
+                 evento.ImagemUrl = path;
+                 await _service.UpdateEvento(userId, eventoId, evento);
+                 return Created(path, NoContent());
+            }
+            return BadRequest();
+        }
+
+        [HttpPut("{eventoId}")]
+        public async Task<IActionResult> UpdateEvento(int eventoId, EventoDto eventoDto){
+            int userId = User.GetUserId();
+            Evento entity = await _service.GetEventoByIdAsync(userId, eventoId);
+            if (entity == null) return NotFound();
+            ((EventoService)_service).ValidateEvento(ref entity, eventoDto);
+            entity = await _service.UpdateEvento(userId, eventoId, entity);
+            
+            return NoContent();
         }
 
         [HttpDelete("{eventoId}")]
         public async Task<IActionResult> DeleteEvento(int eventoId){
-            if (await _service.DeleteEventoById(eventoId)) return NoContent();
-            return NotFound();
+            int userId = User.GetUserId();
+            Evento evento = await _service.GetEventoByIdAsync(userId, eventoId);
+            if (evento == null) return NotFound();
+            if (await _service.DeleteEvento(evento)) return NoContent();
+            return BadRequest();
         }
 
-        // [HttpGet("{eventoId}/lotes")]
-        // public async Task<IActionResult> GetLotesByEventoId(int eventoId){
-        //     LoteDto [] lotes = await _loteService.GetLotesDtoByEventoIdAsync(eventoId);
-        //     if (lotes == null || lotes.Length <= 0) return NoContent();
-        //     return Ok(lotes);
-        // }
+        [HttpGet("{eventoId}/lotes")]
+        public async Task<IActionResult> GetLotesByEventoId(int eventoId){
+            LoteDto [] lotes = await _loteService.GetLotesDtoByEventoIdAsync(eventoId);
+            if (lotes == null || lotes.Length <= 0) return NoContent();
+            return Ok(lotes);
+        }
 
-        // [HttpGet("{eventoId}/lotes/{loteId}")]
-        // public async Task<IActionResult> GetLoteById(int eventoId, int loteId){
-        //     LoteDto lote = await _loteService.GetLoteDtoByIdsAsync(eventoId, loteId);
-        //     if (lote == null) return NoContent();
-        //     return Ok(lote);
-        // }
+        [HttpGet("{eventoId}/lotes/{loteId}")]
+        public async Task<IActionResult> GetLoteById(int eventoId, int loteId){
+            LoteDto lote = await _loteService.GetLoteDtoByIdsAsync(eventoId, loteId);
+            if (lote == null) return NoContent();
+            return Ok(lote);
+        }
 
-        // [HttpPost("{eventoId}/lotes")]
-        // public async Task<IActionResult> CreateLote(int eventoId, LoteDto entity){
-        //     await _loteService.AddLote(eventoId, entity);
-        //     return NoContent();
-        // }
+        [HttpPost("{eventoId}/lotes")]
+        public async Task<IActionResult> CreateLote(int eventoId, LoteDto entity){
+            await _loteService.AddLote(eventoId, entity);
+            return NoContent();
+        }
 
-        // [HttpPut("{eventoId}/lotes/{loteId}")]
-        // public async Task<IActionResult> UpdateLote(int eventoId, int loteId, LoteDto entity){
-        //     LoteDto lote = await _loteService.GetLoteDtoByIdsAsync(eventoId, loteId);
-        //     if(lote == null) return NotFound();
-        //     await _loteService.UpdateLote(eventoId, loteId, entity);
-        //     return NoContent();
-        // }
+        [HttpPut("{eventoId}/lotes/{loteId}")]
+        public async Task<IActionResult> UpdateLote(int eventoId, int loteId, LoteDto entity){
+            LoteDto lote = await _loteService.GetLoteDtoByIdsAsync(eventoId, loteId);
+            if(lote == null) return NotFound();
+            await _loteService.UpdateLote(eventoId, loteId, entity);
+            return NoContent();
+        }
 
-        // [HttpDelete("{eventoId}/lotes/{loteId}")]
-        // public async Task<IActionResult> DeleteLote(int eventoId, int loteId){
-        //     if (await _loteService.DeleteLote(eventoId, loteId))
-        //         return NoContent();
-        //     return BadRequest();
-        // }
+        [HttpDelete("{eventoId}/lotes/{loteId}")]
+        public async Task<IActionResult> DeleteLote(int eventoId, int loteId){
+            if (await _loteService.DeleteLote(eventoId, loteId))
+                return NoContent();
+            return BadRequest();
+        }
     }
 }

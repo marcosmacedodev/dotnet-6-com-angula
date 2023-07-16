@@ -28,30 +28,42 @@ namespace ProEventos.Application.Services
                 Telefone = entity.Telefone,
             };
         }
-        private Evento ToEvento(EventoDto entity)
+        private Evento ToEvento(EventoDto eventoDto)
         {
-            if (entity == null) return null;
+            if (eventoDto == null) return null;
             DateTime dataEvento;
             return new Evento()
             {
-                Id = entity.Id,
-                Local = entity.Local,
-                DataEvento = DateTime.TryParse(entity.DataEvento, out dataEvento)? dataEvento : null,
-                Tema = entity.Tema,
-                Email = entity.Email,
-                QtdPessoas = entity.QtdPessoas,
-                ImagemUrl = entity.ImagemUrl,
-                Telefone = entity.Telefone,
+                Id = eventoDto.Id,
+                Local = eventoDto.Local,
+                DataEvento = DateTime.TryParse(eventoDto.DataEvento, out dataEvento)? dataEvento : null,
+                Tema = eventoDto.Tema,
+                Email = eventoDto.Email,
+                QtdPessoas = eventoDto.QtdPessoas,
+                //ImagemUrl = eventoDto.ImagemUrl,
+                Telefone = eventoDto.Telefone,
             };
         }
-        public async Task<Evento> AddEvento(Evento entity)
+
+        public void ValidateEvento(ref Evento entity, EventoDto eventoDto){
+                DateTime dataEvento;
+                if (eventoDto.DataEvento != null) entity.DataEvento = DateTime.TryParse(eventoDto.DataEvento, out dataEvento)? dataEvento : null;
+                if (eventoDto.Email != null) entity.Email = eventoDto.Email;
+                if (eventoDto.Local != null) entity.Local = eventoDto.Local;
+                if (eventoDto.QtdPessoas != 0) entity.QtdPessoas = eventoDto.QtdPessoas;
+                if (eventoDto.Telefone != null) entity.Telefone = eventoDto.Telefone;
+                if (eventoDto.Tema != null) entity.Tema = eventoDto.Tema;
+        }
+
+        public async Task<Evento> AddEvento(int userId, Evento entity)
         {
             try
             {
+                entity.UserId = userId;
                 _repository.Add<Evento>(entity);
                 if (await _repository.SaveChangesAsync())
                 {
-                    return await GetEventoByIdAsync(entity.Id, false);
+                    return await GetEventoByIdAsync(userId,entity.Id);
                 }
                 return null;
             }
@@ -60,47 +72,26 @@ namespace ProEventos.Application.Services
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<EventoDto> AddEvento(EventoDto entity)
+        public async Task<EventoDto> AddEvento(int userId, EventoDto entity)
         {
             Evento evento = ToEvento(entity);
-            evento = await AddEvento(evento);
+            evento = await AddEvento(userId,evento);
             return ToEventoDto(evento);
         }
         public async Task<bool> DeleteEvento(Evento entity)
         {
-            return await DeleteEventoById(entity.Id);
+            _repository.Delete(entity);
+            return await _repository.SaveChangesAsync();
         }
-        public async Task<bool> DeleteEventoById(int eventoId)
+
+        public async Task<Evento> UpdateEvento(int userId, int eventoId, Evento entity)
         {
             try
             {
-                 Evento evento = await GetEventoByIdAsync(eventoId, false);
-                 if (evento == null) throw new Exception($"Evento {eventoId} não foi encontrado");
-                _repository.Delete<Evento>(evento);
-                return (await _repository.SaveChangesAsync());
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public async Task<Evento> UpdateEvento(int eventoId, Evento entity)
-        {
-            try
-            {
-                Evento evento = await GetEventoByIdAsync(eventoId, false);
-                if (evento == null) throw new Exception($"Evento {eventoId} não foi encontrado");
-                evento.DataEvento = entity.DataEvento;
-                evento.Email = entity.Email;
-                evento.ImagemUrl = entity.ImagemUrl;
-                evento.Local = entity.Local;
-                evento.QtdPessoas = entity.QtdPessoas;
-                evento.Telefone = entity.Telefone;
-                evento.Tema = entity.Tema;
-                _repository.Update<Evento>(evento);
+                _repository.Update<Evento>(entity);
                 if (await _repository.SaveChangesAsync())
                 {
-                    return await GetEventoByIdAsync(eventoId, false);
+                    return await GetEventoByIdAsync(userId,eventoId);
                 }
                 return null;
             }
@@ -110,52 +101,52 @@ namespace ProEventos.Application.Services
             }
         }
 
-        public async Task<EventoDto> UpdateEvento(int eventoId, EventoDto entity)
+        public async Task<EventoDto> UpdateEvento(int userId, int eventoId, EventoDto eventoDto)
         {
-            Evento evento = ToEvento(entity);
-            evento = await UpdateEvento(eventoId, evento);
+            Evento evento = ToEvento(eventoDto);
+            evento = await UpdateEvento(userId, eventoId, evento);
             return ToEventoDto(evento);
         }
 
-        public async Task<Evento[]> GetAllEventosAsync(bool includePalestrantes)
+        public async Task<Evento[]> GetAllEventosAsync(int userId)
         {
             try
             {
-                return await _repositoryEvento.GetAllEventosAsync(includePalestrantes);
+                return await _repositoryEvento.GetAllEventosAsync(userId, false);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<EventoDto[]> GetAllEventosAsync()
+        public async Task<EventoDto[]> GetAllEventosDtoAsync(int userId)
         {
-            Evento[] eventos = await GetAllEventosAsync(false);
+            Evento[] eventos = await GetAllEventosAsync(userId);
             return eventos.Select(evento => ToEventoDto(evento)).ToArray();
         }
-        public async Task<Evento[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes)
+        public async Task<Evento[]> GetAllEventosByTemaAsync(int userId, string tema)
         {
             try
             {
-                return await _repositoryEvento.GetAllEventosByTemaAsync(tema, includePalestrantes);
+                return await _repositoryEvento.GetAllEventosByTemaAsync(userId, tema, false);
             }
             catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<EventoDto[]> GetAllEventosByTemaAsync(string tema)
+        public async Task<EventoDto[]> GetAllEventosDtoByTemaAsync(int userId, string tema)
         {
-            Evento[] eventos = await GetAllEventosByTemaAsync(tema, false);
+            Evento[] eventos = await GetAllEventosByTemaAsync(userId ,tema);
             
             return eventos.Select(evento => ToEventoDto(evento)).ToArray();
         }
 
-        public async Task<Evento> GetEventoByIdAsync(int id, bool includePalestrantes)
+        public async Task<Evento> GetEventoByIdAsync(int userId, int id)
         {
             try
             {
-                return await _repositoryEvento.GetEventoByIdAsync(id, includePalestrantes);
+                return await _repositoryEvento.GetEventoByIdAsync(userId, id, false);
             }
             catch (Exception ex)
             {
@@ -163,9 +154,9 @@ namespace ProEventos.Application.Services
             }
         }
 
-        public async Task<EventoDto> GetEventoByIdAsync(int id)
+        public async Task<EventoDto> GetEventoDtoByIdAsync(int userId, int eventoId)
         {
-            Evento evento = await GetEventoByIdAsync(id, false);
+            Evento evento = await GetEventoByIdAsync(userId, eventoId);
             return ToEventoDto(evento);
         }
     }

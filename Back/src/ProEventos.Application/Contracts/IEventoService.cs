@@ -5,17 +5,16 @@ namespace ProEventos.Application.Contracts
 {
     public interface IEventoService
     {
-        Task<Evento> AddEvento(Evento entity);
-        Task<EventoDto> AddEvento(EventoDto entity);
-        Task<Evento> UpdateEvento(int eventoId, Evento entity);
-        Task<EventoDto> UpdateEvento(int eventoId, EventoDto entity);
-        Task<bool> DeleteEventoById(int eventoId);
+        Task<Evento> AddEvento(int userId, Evento entity);
+        Task<EventoDto> AddEvento(int userId, EventoDto entity);
+        Task<Evento> UpdateEvento(int userId, int eventoId, Evento entity);
+        Task<EventoDto> UpdateEvento(int userId, int eventoId, EventoDto entity);
         Task<bool> DeleteEvento(Evento entity);
-        Task<Evento []> GetAllEventosByTemaAsync(string tema, bool includePalestrantes);
-        Task<Evento []> GetAllEventosAsync(bool includePalestrantes);
-        Task<Evento> GetEventoByIdAsync(int id, bool includePalestrantes);
-        Task<EventoDto []> GetAllEventosByTemaAsync(string tema);
-        Task<EventoDto []> GetAllEventosAsync();
-        Task<EventoDto> GetEventoByIdAsync(int id);
+        Task<Evento []> GetAllEventosByTemaAsync(int userId, string tema);
+        Task<Evento []> GetAllEventosAsync(int userId);
+        Task<Evento> GetEventoByIdAsync(int userId, int id);
+        Task<EventoDto []> GetAllEventosDtoByTemaAsync(int userId, string tema);
+        Task<EventoDto []> GetAllEventosDtoAsync(int userId);
+        Task<EventoDto> GetEventoDtoByIdAsync(int userId, int id);
     }
 }
