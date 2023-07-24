@@ -1,9 +1,9 @@
-import { LoteService } from './../../../services/lote.service';
 import { Component, TemplateRef } from '@angular/core';
 import { Evento } from 'src/app/models/Evento';
 import { EventoService } from 'src/app/services/evento.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-evento-lista',
@@ -21,23 +21,27 @@ export class EventoListaComponent {
   constructor(
     private eventoService: EventoService,
     private modalService: BsModalService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
     ){}
 
   ngOnInit(): void {
     this.getEventos();
-
   }
 
   public deleteEvento(): void{
+    this.spinner.show();
     this.eventoService.deleteEvento(this._eventoId).subscribe({
       next: (response: Evento) => {
         this.getEventos();
         this.toastr.success(`Código de evento: ${this._eventoId}, removido`, 'Excluir');
       },
-      error: (err) => {},
+      error: (err) => {
+        this.toastr.error(err.message, err.statusText);
+        console.error(err);
+      },
       complete: () => {}
-    });
+    }).add(() => this.spinner.hide());
   }
 
   public get eventoId(): number{
@@ -67,7 +71,7 @@ export class EventoListaComponent {
     this.eventosFiltrado = this.filtroLista ? this.filtrarEventos(this.filtroLista): this.eventos;
   }
 
-  filtrarEventos(filtrarPor: string): Evento[]{
+  private filtrarEventos(filtrarPor: string): Evento[]{
     filtrarPor = filtrarPor.toLocaleLowerCase();
     return this.eventos.filter(
       (evento: any) => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1 ||
@@ -75,12 +79,16 @@ export class EventoListaComponent {
       )
   }
 
-  public getEventos(): void{
+  private getEventos(): void{
+    this.spinner.show();
     this.eventoService.getEventos().subscribe({
       next : (response) => {this.eventos = response; this.eventosFiltrado = this.eventos},
-      error: (err) => console.log(err),
+      error: (err) => {
+        this.toastr.error(err.message, err.statusText);
+        console.error(err);
+      },
       complete: () => console.info('complete')
-  });
+    }).add(() => this.spinner.hide());
   }
 
 }

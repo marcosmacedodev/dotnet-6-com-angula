@@ -16,36 +16,36 @@
       </div>
       <div class="form-row">
         <div class="form-group col-sm-6">
-          <label>Primeiro Nome</label>
-          <input type="text" class="form-control" formControlName="nome" placeholder="Insira o Primeiro nome" />
-          <div *ngIf="getField('nome')?.invalid && (getField('nome')?.dirty || getField('nome')?.touched)"
+          <label>Nome</label>
+          <input type="text" class="form-control" formControlName="firstName" placeholder="Insira o Primeiro nome" />
+          <div *ngIf="form.get('firstName')?.invalid && (form.get('firstName')?.dirty || form.get('firstName')?.touched)"
           class="alert alert-danger">
             Nome
-            <div *ngIf="getField('nome')?.errors?.['required']" class="d-inline">
+            <div *ngIf="form.get('firstName')?.errors?.['required']" class="d-inline">
               é obrigatório
             </div>
-          <div *ngIf="getField('nome')?.errors?.['minlength']" class="d-inline">
+          <div *ngIf="form.get('firstName')?.errors?.['minlength']" class="d-inline">
               deve ter pelo menos 3 caracteres.
             </div>
-            <div *ngIf="getField('nome')?.errors?.['maxlength']" class="d-inline">
-              deve ter no máximo 32 caracteres
+            <div *ngIf="form.get('firstName')?.errors?.['maxlength']" class="d-inline">
+              deve ter no máximo 16 caracteres
             </div>
           </div>
         </div>
         <div class="form-group col-sm-6">
-          <label>Último nome</label>
-          <input type="text" class="form-control" formControlName="sobrenome" placeholder="Insira o Último nome" />
-          <div *ngIf="getField('sobrenome')?.invalid && (getField('sobrenome')?.dirty || getField('sobrenome')?.touched)"
+          <label>Sobrenome</label>
+          <input type="text" class="form-control" formControlName="lastName" placeholder="Insira o Último nome" />
+          <div *ngIf="form.get('lastName')?.invalid && (form.get('lastName')?.dirty || form.get('lastName')?.touched)"
           class="alert alert-danger">
-            Nome
-            <div *ngIf="getField('sobrenome')?.errors?.['required']" class="d-inline">
+          Sobrenome
+            <div *ngIf="form.get('lastName')?.errors?.['required']" class="d-inline">
               é obrigatório
             </div>
-          <div *ngIf="getField('sobrenome')?.errors?.['minlength']" class="d-inline">
+          <div *ngIf="form.get('lastName')?.errors?.['minlength']" class="d-inline">
               deve ter pelo menos 3 caracteres.
             </div>
-            <div *ngIf="getField('sobrenome')?.errors?.['maxlength']" class="d-inline">
-              deve ter no máximo 32 caracteres
+            <div *ngIf="form.get('lastName')?.errors?.['maxlength']" class="d-inline">
+              deve ter no máximo 16 caracteres
             </div>
           </div>
         </div>
@@ -53,58 +53,58 @@
       <div class="form-group">
         <label for="">Email:</label>
         <input class="form-control" type="text" formControlName="email" placeholder="Insira um E-mail válido" />
-        <div *ngIf="getField('email')?.invalid && (getField('email')?.dirty || getField('email')?.touched)"
+        <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)"
         class="alert alert-danger">
           E-mail
-          <div *ngIf="getField('email')?.errors?.['required']" class="d-inline">
+          <div *ngIf="form.get('email')?.errors?.['required']" class="d-inline">
             é obrigatório.
           </div>
-          <div *ngIf="getField('email')?.errors?.['email']" class="d-inline">
+          <div *ngIf="form.get('email')?.errors?.['email']" class="d-inline">
             é inválido.
           </div>
         </div>
       </div>
       <div class="form-group">
         <label for="">Usuario:</label>
-        <input class="form-control" type="text" formControlName="usuario" placeholder="Insira o nome de Usuário" />
-        <div *ngIf="getField('usuario')?.invalid && (getField('usuario')?.dirty || getField('usuario')?.touched)"
+        <input class="form-control" type="text" formControlName="userName" placeholder="Insira o nome de Usuário" />
+        <div *ngIf="form.get('userName')?.invalid && (form.get('userName')?.dirty || form.get('userName')?.touched)"
         class="alert alert-danger">
           Usuario
-          <div *ngIf="getField('usuario')?.errors?.['required']" class="d-inline">
+          <div *ngIf="form.get('userName')?.errors?.['required']" class="d-inline">
             é obrigatório.
           </div>
-          <div *ngIf="getField('usuario')?.errors?.['minlength']" class="d-inline">
+          <div *ngIf="form.get('userName')?.errors?.['minlength']" class="d-inline">
             deve ter ao menos 4 caracteres.
           </div>
-          <div *ngIf="getField('usuario')?.errors?.['maxlength']" class="d-inline">
-            deve ter no máximo 8 caracteres.
+          <div *ngIf="form.get('userName')?.errors?.['maxlength']" class="d-inline">
+            deve ter no máximo 64 caracteres.
           </div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-sm-6">
           <label for="">Senha:</label>
-          <input class="form-control" type="password" formControlName="senha" placeholder="Digite uma Senha" />
-          <div *ngIf="getField('senha')?.invalid && (getField('senha')?.dirty || getField('senha')?.touched)"
+          <input class="form-control" type="password" formControlName="password" placeholder="Digite uma Senha" />
+          <div *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)"
           class="alert alert-danger">
             Senha
-            <div *ngIf="getField('senha')?.errors?.['required']" class="d-inline">
+            <div *ngIf="form.get('password')?.errors?.['required']" class="d-inline">
               é obrigatório.
             </div>
-            <div *ngIf="getField('senha')?.errors?.['minlength']" class="d-inline">
+            <div *ngIf="form.get('password')?.errors?.['minlength']" class="d-inline">
               deve ter ao menos 8 caracteres.
             </div>
-            <div *ngIf="getField('senha')?.errors?.['maxlength']" class="d-inline">
-              deve ter no máximo 16 caracteres.
+            <div *ngIf="form.get('password')?.errors?.['maxlength']" class="d-inline">
+              deve ter no máximo 32 caracteres.
             </div>
           </div>
         </div>
         <div class="form-group col-sm-6">
           <label for="">Confirmar Senha:</label>
-          <input class="form-control" type="password" formControlName="confirma_senha" placeholder="Confirme a Senha" />
-          <div *ngIf="getField('confirma_senha')?.invalid && (getField('confirma_senha')?.dirty || getField('confirma_senha')?.touched)"
+          <input class="form-control" type="password" formControlName="confirm_password" placeholder="Confirme a Senha" />
+          <div *ngIf="form.get('confirm_password')?.invalid && (form.get('confirm_password')?.dirty || form.get('confirm_password')?.touched)"
           class="alert alert-danger">
-            <div *ngIf="getField('confirma_senha')?.errors?.['required']" class="d-inline">
+            <div *ngIf="form.get('confirm_password')?.errors?.['required']" class="d-inline">
               Confirme a senha
             </div>
           </div>
@@ -112,13 +112,13 @@
       </div>
       <div class="form-row p-1 mb-3">
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="customCheck1" formControlName="concorda">
+          <input type="checkbox" class="custom-control-input" id="customCheck1" formControlName="agree">
           <label class="custom-control-label">Eu concordo com os <a href="#">Termos de Uso</a>.</label>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-12">
-          <button class="btn btn-lg btn-success btn-block px-5">
+          <button class="btn btn-lg btn-success btn-block px-5" [disabled]="!form.valid" (click)="createUser()">
             Registar
           </button>
         </div>

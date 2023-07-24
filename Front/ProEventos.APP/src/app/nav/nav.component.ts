@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Type } from '@angular/core';
+import { AccountService } from '../services/account.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { LoginComponent } from '../components/user/login/login.component';
 
 @Component({
   selector: 'app-nav',
@@ -7,11 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public account: AccountService,
+    public router: Router,
+    private aRouter: ActivatedRoute
+    ) { }
 
   ngOnInit() {
   }
 
   isCollapsed = true;
+
+  public logout(): void{
+    this.account.logout();
+  }
+
+
 
 }

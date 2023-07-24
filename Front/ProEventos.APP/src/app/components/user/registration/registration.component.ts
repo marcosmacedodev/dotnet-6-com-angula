@@ -1,5 +1,9 @@
+import { AccountService } from 'src/app/services/account.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from 'src/app/models/Users/User';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-registration',
@@ -10,7 +14,12 @@ export class RegistrationComponent implements OnInit{
 
   private _form!: FormGroup;
 
-  constructor(private fb: FormBuilder){}
+  constructor(
+    private account: AccountService,
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
+    ){}
 
   ngOnInit(): void {
     this.validate();
@@ -24,20 +33,33 @@ export class RegistrationComponent implements OnInit{
     return this._form;
   }
 
-  public getField(fieldname: string): any{
-    return this._form.get(fieldname);
-  }
-
   private validate(): void{
     this._form = this.fb.group({
-      nome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(16)]],
-      sobrenome: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(16)]],
+      firstName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(16)]],
+      lastName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(16)]],
       email: ['', [Validators.required, Validators.email]],
-      usuario: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
-      senha: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
-      confirma_senha: ['', [Validators.required]],
-      concorda: [false, Validators.required]
+      userName: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(64)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(32)]],
+      confirm_password: ['', [Validators.required]],
+      agree: [false, Validators.requiredTrue]
     });
+  }
+
+  public createUser(): void{
+    this.spinner.show();
+    this.account.createUser(this.form.value).subscribe({
+      next: () => {
+        this.toastr.success(`Usuário criado com sucesso`, '');
+        this.form.reset();
+      },
+      error: (err) => {
+        this.toastr.error(err.message, err.statusText)
+        console.error(err)
+      },
+      complete: () => {
+
+      }
+    }).add({unsubscribe: () =>this.spinner.hide()});
   }
 
 }

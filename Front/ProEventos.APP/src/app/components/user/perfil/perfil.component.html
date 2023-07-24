@@ -1,6 +1,5 @@
 <app-titulo titulo="Perfil" icone="fa-solid fa-user"></app-titulo>
-
-<form [formGroup]="Form">
+<form [formGroup]="form">
 	<div class="row p-3">
 		<div class="col-lg-3 pt-1">
 			<div class="card mb-3">
@@ -13,11 +12,10 @@
 					</a>
 				</div>
 				<div class="card-body">
-					<div class="h4 text-center mb-3">@UserName</div>
-					<div class="h7 text-bold pb-1"><b>Nome:</b> Miracles Lee Cross</div>
+					<div class="h4 text-center mb-3">@{{form.value?.userName}}</div>
+					<div class="h7 text-bold pb-1"><b>Nome:</b> {{form.value?.firstName}} {{form.value?.lastName}}</div>
 					<div class="h7">
-						Developer of web applications, JavaScript, PHP, Java, Python, Ruby, Java, Node.js,
-						etc.
+						{{form.value?.description}}
 					</div>
 				</div>
 				<ul class="list-group list-group-flush">
@@ -43,50 +41,50 @@
 					<h3 class="border-bottom">Detalhe Perfil</h3>
 				</div>
 				<div class="form-group col">
-					<label>Título</label>
-					<select class="form-control" formControlName="titulo">
+					<label>T&iacute;tulo</label>
+					<select class="form-control" formControlName="userGrade">
 						<option value=""></option>
-						<option value="0">Não Quero</option>
-						<option value="Senhorita">Tecnólogo(a)</option>
-						<option value="Senhorita">Bacharel</option>
-						<option value="Senhorita">Especialista</option>
-						<option value="Senhorita">Pós Graduado(a)</option>
-						<option value="Senhorita">Mestre</option>
-						<option value="Senhorita">Doutor(a)</option>
-						<option value="Senhorita">Pós Doc</option>
+						<option value="NaoInformado">N&atilde;o Quero</option>
+						<option value="Tecnologo">Tecn&oacute;logo(a)</option>
+						<option value="Bacharel">Bacharel</option>
+						<option value="Especialista">Especialista</option>
+						<option value="PosGraduado">P&oacute;s Graduado(a)</option>
+						<option value="Mestrado">Mestre</option>
+						<option value="Doutorado">Doutor(a)</option>
+						<option value="PosDoutorado">P&oacute;s Doc</option>
 					</select>
 				</div>
 				<div class="form-group col-sm-5">
-					<label>Primeiro Nome</label>
-					<input type="text" class="form-control" formControlName="nome" />
-            <div *ngIf="getField('nome')?.invalid && (getField('nome')?.dirty || getField('nome')?.touched)"
+					<label>Nome</label>
+					<input type="text" class="form-control" formControlName="firstName" />
+            <div *ngIf="form.get('firstName')?.invalid && (form.get('firstName')?.dirty || form.get('firstName')?.touched)"
                 class="alert alert-danger">
-              Nome
-              <div *ngIf="getField('nome')?.errors?.['required']" class="d-inline">
-                é obrigatório
+                Nome
+              <div *ngIf="form.get('firstName')?.errors?.['required']" class="d-inline">
+                &eacute; obrigat&oacute;rio
               </div>
-              <div *ngIf="getField('nome')?.errors?.['minlength']" class="d-inline">
+              <div *ngIf="form.get('firstName')?.errors?.['minlength']" class="d-inline">
                 deve ter pelo menos 3 caracteres.
               </div>
-              <div *ngIf="getField('nome')?.errors?.['maxlength']" class="d-inline">
-                deve ter no máximo 16 caracteres
+              <div *ngIf="form.get('firstName')?.errors?.['maxlength']" class="d-inline">
+                deve ter no m&aacute;ximo 16 caracteres
               </div>
             </div>
 				</div>
 				<div class="form-group col-sm-5">
-					<label>Último nome</label>
-					<input type="text" class="form-control" formControlName="sobrenome" />
-          <div *ngIf="getField('sobrenome')?.invalid && (getField('sobrenome')?.dirty || getField('sobrenome')?.touched)"
+					<label>Sobrenome</label>
+					<input type="text" class="form-control" formControlName="lastName" />
+          <div *ngIf="form.get('lastName')?.invalid && (form.get('lastName')?.dirty || form.get('lastName')?.touched)"
           class="alert alert-danger">
         Sobrenome
-        <div *ngIf="getField('sobrenome')?.errors?.['required']" class="d-inline">
-            é obrigatório
+        <div *ngIf="form.get('lastName')?.errors?.['required']" class="d-inline">
+            &eacute; obrigat&oacute;rio
           </div>
-          <div *ngIf="getField('sobrenome')?.errors?.['minlength']" class="d-inline">
+          <div *ngIf="form.get('lastName')?.errors?.['minlength']" class="d-inline">
             deve ter pelo menos 3 caracteres.
           </div>
-          <div *ngIf="getField('sobrenome')?.errors?.['maxlength']" class="d-inline">
-            deve ter no máximo 16 caracteres
+          <div *ngIf="form.get('lastName')?.errors?.['maxlength']" class="d-inline">
+            deve ter no m&aacute;ximo 16 caracteres
           </div>
         </div>
 				</div>
@@ -95,61 +93,62 @@
 				<div class="form-group col-sm-5">
 					<label>E-mail</label>
 					<input type="text" class="form-control" formControlName="email" />
-          <div *ngIf="getField('email')?.invalid && (getField('email')?.dirty || getField('email')?.touched)"
+          <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)"
           class="alert alert-danger">
           Email
-          <div *ngIf="getField('email')?.errors?.['required']" class="d-inline">
-            é obrigatório
+          <div *ngIf="form.get('email')?.errors?.['required']" class="d-inline">
+            &eacute; obrigat&oacute;rio
           </div>
-          <div *ngIf="getField('email')?.errors?.['email']" class="d-inline">
-            é inválido.
+          <div *ngIf="form.get('email')?.errors?.['email']" class="d-inline">
+            &eacute; inv&aacute;lido.
           </div>
-          <!-- <div *ngIf="getField('email')?.errors?.['maxlength']" class="d-inline">
+          <!-- <div *ngIf="form.get('email')?.errors?.['maxlength']" class="d-inline">
             deve ter no máximo 16 caracteres
           </div> -->
         </div>
 				</div>
 				<div class="form-group col-sm-4">
 					<label>Telefone</label>
-					<input type="text" class="form-control" formControlName="telefone" />
-          <div *ngIf="getField('telefone')?.invalid && (getField('telefone')?.dirty || getField('telefone')?.touched)"
+					<input type="text" class="form-control" formControlName="phoneNumber" />
+          <div *ngIf="form.get('phoneNumber')?.invalid && (form.get('phoneNumber')?.dirty || form.get('phoneNumber')?.touched)"
           class="alert alert-danger">
             Telefone
-            <div *ngIf="getField('telefone')?.errors?.['required']" class="d-inline">
-              é obrigatório
+            <div *ngIf="form.get('phoneNumber')?.errors?.['required']" class="d-inline">
+              &eacute; obrigat&oacute;rio
             </div>
-            <!-- <div *ngIf="getField('nome')?.errors?.['minlength']" class="d-inline">
+            <!-- <div *ngIf="form.get('nome')?.errors?.['minlength']" class="d-inline">
               deve ter pelo menos 3 caracteres.
             </div>
-            <div *ngIf="getField('nome')?.errors?.['maxlength']" class="d-inline">
+            <div *ngIf="form.get('nome')?.errors?.['maxlength']" class="d-inline">
               deve ter no máximo 16 caracteres
             </div> -->
           </div>
 				</div>
 				<div class="form-group col-sm">
-					<label>Função</label>
-					<select class="form-control" formControlName="funcao">
+					<label>Fun&ccedil;&atilde;o</label>
+					<select class="form-control" formControlName="userType">
 						<option value=""></option>
+            <option value="NaoInformado">Não Quero</option>
 						<option value="Participante">Participante</option>
 						<option value="Palestrante">Palestrante</option>
 					</select>
-          <div *ngIf="getField('funcao')?.invalid && (getField('funcao')?.dirty || getField('funcao')?.touched)"
+          <div *ngIf="form.get('userType')?.invalid && (form.get('userType')?.dirty || form.get('userType')?.touched)"
           class="alert alert-danger">
-            Função
-            <div *ngIf="getField('funcao')?.errors?.['required']" class="d-inline">
-              é obrigatório
+            Fun&ccedil;&atilde;o
+            <div *ngIf="form.get('userType')?.errors?.['required']" class="d-inline">
+              &eacute; obrigat&oacute;rio
             </div>
-            <!-- <div *ngIf="getField('nome')?.errors?.['minlength']" class="d-inline">
+            <!-- <div *ngIf="form.get('nome')?.errors?.['minlength']" class="d-inline">
               deve ter pelo menos 3 caracteres.
             </div>
-            <div *ngIf="getField('nome')?.errors?.['maxlength']" class="d-inline">
+            <div *ngIf="form.get('nome')?.errors?.['maxlength']" class="d-inline">
               deve ter no máximo 16 caracteres
             </div> -->
           </div>
 				</div>
 				<div class="form-group col-12">
-					<label>Descrição</label>
-					<input type="text" class="form-control" formControlName="descricao" />
+					<label>Descri&ccedil;&atilde;o</label>
+					<input type="text" class="form-control" formControlName="description" />
 				</div>
 			</div>
 			<div>
@@ -159,42 +158,22 @@
 			<div class="form-row">
 				<div class="form-group col-sm">
 					<label>Senha</label>
-					<input type="password" class="form-control" formControlName="senha" />
-          <div *ngIf="getField('senha')?.invalid && (getField('senha')?.dirty || getField('senha')?.touched)"
-          class="alert alert-danger">
-            Senha
-            <div *ngIf="getField('senha')?.errors?.['required']" class="d-inline">
-              é obrigatório.
-            </div>
-            <div *ngIf="getField('senha')?.errors?.['minlength']" class="d-inline">
-              deve ter ao menos 8 caracteres.
-            </div>
-            <div *ngIf="getField('senha')?.errors?.['maxlength']" class="d-inline">
-              deve ter no máximo 16 caracteres.
-            </div>
-          </div>
+					<input type="password" class="form-control" formControlName="password" />
 				</div>
 				<div class="form-group col-sm">
 					<label>Confirmar Senha</label>
-					<input type="password" class="form-control" formControlName="confirma_senha" />
-          <div *ngIf="getField('confirma_senha')?.invalid && (getField('confirma_senha')?.dirty || getField('confirma_senha')?.touched)"
-          class="alert alert-danger">
-            <div *ngIf="getField('confirma_senha')?.errors?.['required']" class="d-inline">
-              Confirme a senha
-            </div>
-          </div>
+					<input type="password" class="form-control" formControlName="confirm_password" />
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="card-footer">
 		<div class="d-flex">
-			<button class="btn btn-outline-secondary mr-auto border" (click)="Form.reset()">
-				Cancelar Alteração
+			<button class="btn btn-outline-secondary mr-auto border" (click)="form.reset()">
+				Cancelar Altera&ccedil;&atilde;o
 			</button>
-			<button class="btn btn-success" [disabled]="!Form.valid">
-				<!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
-				Salvar Alteração
+			<button class="btn btn-success" (click)="updateUser()">
+				Salvar Altera&ccedil;&atilde;o
 			</button>
 		</div>
 	</div>

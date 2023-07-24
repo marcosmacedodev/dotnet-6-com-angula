@@ -29,19 +29,19 @@ namespace ProEventos.API.Controllers
            return Ok(user);
         }
 
-        [HttpPost]
+        [HttpPost("createuser")]
         [AllowAnonymous]
         public async Task<IActionResult> CreateUser(UserDto userDto)
         {
             if (await _accountService.UserExists(userDto.UserName))
-                return BadRequest();
+                return BadRequest("Usuário já está em uso.");
             userDto = await _accountService.CreateUserAccountAsync(userDto);
             return Created("", userDto);
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> LoginUser(LoginDto loginDto)
+        public async Task<IActionResult> Login(LoginDto loginDto)
         {
             UserUpdateDto user = await _accountService.GetUserByUserNameAsync(loginDto.UserName);
             if(user == null) return Unauthorized();
@@ -49,20 +49,28 @@ namespace ProEventos.API.Controllers
             if (!signInResult.Succeeded){
                 return Unauthorized();
             }
-            
             return Ok(new {
-                token = _tokenService.CreateToken(user).Result
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Token = _tokenService.CreateToken(user).Result
             });
         }
 
         [HttpPut("updateuser")]
         public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto){
+            if (!userUpdateDto.UserName.Equals(User.GetUserName()))
+                return Unauthorized();
             UserUpdateDto user = await _accountService.GetUserByUserNameAsync(User.GetUserName());
             if(user == null) Unauthorized();
-
             user = await _accountService.UpdateAccountAsync(userUpdateDto);
             if(user == null) return BadRequest();
-            return Ok(user);
+            return Ok(new {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Token = _tokenService.CreateToken(user).Result
+            });
         }
     }
 }

@@ -1,10 +1,11 @@
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 defineLocale('pt-br', ptBrLocale);
 //----------------------------Modules--------------------------------------------//
-import { NgModule, Component } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -13,6 +14,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 //-------------------------Components-------------------------------------------------//
 import { AppComponent } from './app.component';
 import { EventosComponent } from './components/eventos/eventos.component';
@@ -28,6 +30,7 @@ import { DateTimeFormatPipe } from 'src/app/helpers/dateTimeFormat.pipe';
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import { RegistrationComponent } from './components/user/registration/registrati
       UserComponent,
       LoginComponent,
       RegistrationComponent,
+      HomeComponent,
    ],
   imports: [
     BrowserModule,
@@ -53,6 +57,7 @@ import { RegistrationComponent } from './components/user/registration/registrati
     BrowserAnimationsModule,
     CollapseModule.forRoot(),
     FormsModule,
+    NgxSpinnerModule,
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
@@ -60,7 +65,8 @@ import { RegistrationComponent } from './components/user/registration/registrati
     ToastrModule.forRoot({positionClass: 'toast-bottom-right',
     preventDuplicates: true})
   ],
-  providers: [],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

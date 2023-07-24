@@ -34,6 +34,7 @@ namespace ProEventos.API.Controllers
             int userId = User.GetUserId();
             EventoDto evento = await _service.GetEventoDtoByIdAsync(userId, eventoId);
             if (evento == null) return NotFound();
+            evento.ImagemUrl = $"{(Request.IsHttps? "https": "http")}://{Request.Host.Value}/resources/images/{evento.ImagemUrl}";
             return Ok(evento);
         }
         
@@ -60,7 +61,7 @@ namespace ProEventos.API.Controllers
             if (evento == null) return NotFound();
 
             if (file.Length > 0){
-                 _utils.DeleteImage(evento.ImagemUrl!);
+                 _utils.DeleteImage(evento.ImagemUrl);
                  string path = await _utils.SaveImage(file);
                  //string fullPath =  $"{(Request.IsHttps? "https": "http")}://{Request.Host.Value}/resources/images/{path}";
                  evento.ImagemUrl = path;

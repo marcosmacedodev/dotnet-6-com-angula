@@ -6,16 +6,16 @@
       <div class="form-group col-md-12">
         <label>Tema</label>
         <input type="text" class="form-control" formControlName="tema" placeholder="Insira o Tema">
-        <div *ngIf="getField('tema')?.invalid && (getField('tema')?.dirty || getField('tema')?.touched)"
+        <div *ngIf="form.get('tema')?.invalid && (form.get('tema')?.dirty || form.get('tema')?.touched)"
             class="alert alert-danger">
           Tema
-          <div *ngIf="getField('tema')?.errors?.['required']" class="d-inline">
+          <div *ngIf="form.get('tema')?.errors?.['required']" class="d-inline">
             é obrigatório
           </div>
-          <div *ngIf="getField('tema')?.errors?.['minlength']" class="d-inline">
+          <div *ngIf="form.get('tema')?.errors?.['minlength']" class="d-inline">
             deve ter pelo menos 4 caracteres.
           </div>
-          <div *ngIf="getField('tema')?.errors?.['maxlength']" class="d-inline">
+          <div *ngIf="form.get('tema')?.errors?.['maxlength']" class="d-inline">
             deve ter no máximo 50 caracteres
           </div>
         </div>
@@ -25,10 +25,10 @@
       <div class="form-group col-md-8">
         <label>Local</label>
         <input type="text" class="form-control" formControlName="local" placeholder="">
-        <div *ngIf="getField('local')?.invalid && (getField('local')?.dirty || getField('local')?.touched)"
+        <div *ngIf="form.get('local')?.invalid && (form.get('local')?.dirty || form.get('local')?.touched)"
             class="alert alert-danger">
           Local
-          <div *ngIf="getField('local')?.errors?.['required']" class="d-inline">
+          <div *ngIf="form.get('local')?.errors?.['required']" class="d-inline">
             é obrigatório
           </div>
           <!-- <div *ngIf="form.get('local')?.errors?.['minlength']" class="d-inline">
@@ -42,10 +42,10 @@
       <div class="form-group col-md-4">
         <label>Data e Hora</label>
         <input type="datetime" class="form-control" formControlName="dataEvento" placeholder="" bsDatepicker [bsConfig]=" bsConfig">
-          <div *ngIf="getField('dataEvento')?.invalid && (getField('dataEvento')?.dirty || getField('dataEvento')?.touched)"
+          <div *ngIf="form.get('dataEvento')?.invalid && (form.get('dataEvento')?.dirty || form.get('dataEvento')?.touched)"
             class="alert alert-danger">
             Data e Hora
-            <div *ngIf="getField('dataEvento')?.errors?.['required']" class="d-inline">
+            <div *ngIf="form.get('dataEvento')?.errors?.['required']" class="d-inline">
               é obrigatório
             </div>
           <!-- <div *ngIf="form.get('local')?.errors?.['minlength']" class="d-inline">
@@ -61,13 +61,13 @@
       <div class="form-group col-md-2">
         <label>Qtd Pessoas</label>
         <input type="number" class="form-control" formControlName="qtdPessoas" placeholder="">
-        <div *ngIf="getField('qtdPessoas')?.invalid && (getField('qtdPessoas')?.dirty || getField('qtdPessoas')?.touched)"
+        <div *ngIf="form.get('qtdPessoas')?.invalid && (form.get('qtdPessoas')?.dirty || form.get('qtdPessoas')?.touched)"
         class="alert alert-danger">
       Qtd Pessoas
-      <div *ngIf="getField('qtdPessoas')?.errors?.['required']" class="d-inline">
+      <div *ngIf="form.get('qtdPessoas')?.errors?.['required']" class="d-inline">
         é obrigatório
       </div>
-      <div *ngIf="getField('qtdPessoas')?.errors?.['min'] || getField('qtdPessoas')?.errors?.['max']" class="d-inline">
+      <div *ngIf="form.get('qtdPessoas')?.errors?.['min'] || form.get('qtdPessoas')?.errors?.['max']" class="d-inline">
         deve ser entre 1 e 120000 pessoas.
       </div>
       <!--
@@ -79,10 +79,10 @@
       <div class="form-group col-md-4">
         <label>Telefone</label>
         <input type="text" class="form-control" formControlName="telefone" placeholder="(000) 90000-0000">
-        <div *ngIf="getField('telefone')?.invalid && (getField('telefone')?.dirty || getField('telefone')?.touched)"
+        <div *ngIf="form.get('telefone')?.invalid && (form.get('telefone')?.dirty || form.get('telefone')?.touched)"
         class="alert alert-danger">
           Telefone
-          <div *ngIf="getField('telefone')?.errors?.['required']" class="d-inline">
+          <div *ngIf="form.get('telefone')?.errors?.['required']" class="d-inline">
             é obrigatório
           </div>
         <!-- <div *ngIf="form.get('local')?.errors?.['minlength']" class="d-inline">
@@ -96,13 +96,13 @@
       <div class="form-group col-md-6">
         <label>Email</label>
         <input type="text" class="form-control" formControlName="email" placeholder="e-mail">
-        <div *ngIf="getField('email')?.invalid && (getField('email')?.dirty || getField('email')?.touched)"
+        <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)"
         class="alert alert-danger">
           E-mail
-          <div *ngIf="getField('email')?.errors?.['required']" class="d-inline">
+          <div *ngIf="form.get('email')?.errors?.['required']" class="d-inline">
             é obrigatório
           </div>
-       <div *ngIf="getField('email')?.errors?.['email']" class="d-inline">
+       <div *ngIf="form.get('email')?.errors?.['email']" class="d-inline">
           inválido.
         </div>
         <!--
@@ -114,10 +114,10 @@
       <div class="form-group col-md-6">
         <label>imagem</label>
         <input type="text" class="form-control" formControlName="imagemUrl" placeholder="Imagem">
-        <div *ngIf="getField('imagemUrl')?.invalid && (getField('imagemUrl')?.dirty || getField('imagemUrl')?.touched)"
+        <div *ngIf="form.get('imagemUrl')?.invalid && (form.get('imagemUrl')?.dirty || form.get('imagemUrl')?.touched)"
         class="alert alert-danger">
         Imagem
-        <div *ngIf="getField('imagemUrl')?.errors?.['required']" class="d-inline">
+        <div *ngIf="form.get('imagemUrl')?.errors?.['required']" class="d-inline">
           é obrigatório
         </div>
         <!-- <div *ngIf="form.get('local')?.errors?.['minlength']" class="d-inline">
@@ -136,7 +136,7 @@
       <button class="btn btn-outline-secondary mr-auto border" (click)="form.reset()">
         Cancelar Alteração
       </button>
-      <button class="btn btn-success" [disabled]="!form.valid" (click)="onSaveEvento()">
+      <button class="btn btn-success" [disabled]="!form.valid" (click)="saveEvento()">
         <!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
         Salvar Evento
       </button>
@@ -232,7 +232,7 @@
     <button class="btn btn-outline-secondary mr-auto border">
       Cancelar Alteração
     </button>
-    <button class="btn btn-success" [disabled]="!lotes.valid" (click)="onSaveLotes()">
+    <button class="btn btn-success" [disabled]="!lotes.valid" (click)="saveLotes()">
       Salvar Lotes
     </button>
   </div>

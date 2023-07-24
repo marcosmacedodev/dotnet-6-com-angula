@@ -60,10 +60,11 @@ namespace ProEventos.Application.Services
             try
             {
                 entity.UserId = userId;
+                entity.ImagemUrl = null;
                 _repository.Add<Evento>(entity);
                 if (await _repository.SaveChangesAsync())
                 {
-                    return await GetEventoByIdAsync(userId,entity.Id);
+                    return await GetEventoByIdAsync(userId, entity.Id);
                 }
                 return null;
             }

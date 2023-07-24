@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EventoService {
+
   baseUrl = "https://localhost:7283/api/eventos";
+
   constructor(private http: HttpClient) { }
 
   public getEventos(): Observable<Evento[]>{

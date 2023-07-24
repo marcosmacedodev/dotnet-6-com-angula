@@ -63,9 +63,6 @@ namespace ProEventos.Application.Services
         private void validateUpdateDto(ref User user, UserUpdateDto userUpdateDto){
             UserGrade userGrade;
             UserType userType;
-            if (userUpdateDto.UserName != null){
-                user.UserName = userUpdateDto.UserName;
-            }
             if(userUpdateDto.FirstName != null){
                 user.FirstName = userUpdateDto.FirstName;
             }
@@ -161,13 +158,17 @@ namespace ProEventos.Application.Services
             {
                 User user = await _repositoryUser.GetUserByUserNameAsync(userUpdateDto.UserName);
                 validateUpdateDto(ref user, userUpdateDto);
-                string token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                await _userManager.ResetPasswordAsync(user, token, userUpdateDto.Password);
+                if(userUpdateDto.Password != null)
+                {
+                    string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    await _userManager.ResetPasswordAsync(user, token, userUpdateDto.Password);
+                }
                 _repository.Update<User>(user);
                 if(await _repository.SaveChangesAsync())
                 {
                     return await GetUserByUserNameAsync(userUpdateDto.UserName);
                 }
+                
                 return null;
             }
             catch (Exception ex)
