@@ -2,6 +2,7 @@ using ProEventos.Application.Contracts;
 using ProEventos.Domain;
 using ProEventos.Domain.Dtos;
 using ProEventos.Persistence.Contracts;
+using ProEventos.Persistence.Pages;
 
 namespace ProEventos.Application.Services
 {
@@ -109,38 +110,25 @@ namespace ProEventos.Application.Services
             return ToEventoDto(evento);
         }
 
-        public async Task<Evento[]> GetAllEventosAsync(int userId)
+        public async Task<PageList<Evento>> GetAllEventosAsync(int userId, PageParams pageParams)
         {
             try
             {
-                return await _repositoryEvento.GetAllEventosAsync(userId, false);
+                return await _repositoryEvento.GetAllEventosAsync(userId, pageParams, false);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<EventoDto[]> GetAllEventosDtoAsync(int userId)
+        public async Task<PageList<EventoDto>> GetAllEventosDtoAsync(int userId, PageParams pageParams)
         {
-            Evento[] eventos = await GetAllEventosAsync(userId);
-            return eventos.Select(evento => ToEventoDto(evento)).ToArray();
-        }
-        public async Task<Evento[]> GetAllEventosByTemaAsync(int userId, string tema)
-        {
-            try
-            {
-                return await _repositoryEvento.GetAllEventosByTemaAsync(userId, tema, false);
-            }
-            catch(Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public async Task<EventoDto[]> GetAllEventosDtoByTemaAsync(int userId, string tema)
-        {
-            Evento[] eventos = await GetAllEventosByTemaAsync(userId ,tema);
+            PageList<Evento> eventos = await GetAllEventosAsync(userId, pageParams);
             
-            return eventos.Select(evento => ToEventoDto(evento)).ToArray();
+            return await PageList<EventoDto>.
+                                CreatePageAsync(
+                                    eventos.Items.Select(evento => ToEventoDto(evento))
+                                    .AsQueryable(), pageParams.PageNumber, pageParams.PageSize);
         }
 
         public async Task<Evento> GetEventoByIdAsync(int userId, int id)

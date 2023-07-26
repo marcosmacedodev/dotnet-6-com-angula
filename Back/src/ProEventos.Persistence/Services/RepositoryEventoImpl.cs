@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ProEventos.Domain;
 using ProEventos.Persistence.Contexts;
 using ProEventos.Persistence.Contracts;
+using ProEventos.Persistence.Pages;
 
 namespace ProEventos.Persistence.Services
 {
@@ -29,10 +30,10 @@ namespace ProEventos.Persistence.Services
             return await query.ToArrayAsync();
         }
 
-        public async Task<Evento[]> GetAllEventosByTemaAsync(int userId, string tema, bool includePalestrantes)
+        public async Task<PageList<Evento>> GetAllEventosAsync(int userId, PageParams pageParams, bool includePalestrantes)
         {
             IQueryable<Evento> query = _context.Eventos
-            .Where(e => e.Tema.ToLower().Contains(tema.ToLower()))
+            .Where(e => e.Tema.ToLower().Contains(pageParams.Term.ToLower()))
             .Where(e => e.UserId.Equals(userId))
             .Include(e => e.Lotes)
             .Include(e => e.RedesSociais)
@@ -43,7 +44,7 @@ namespace ProEventos.Persistence.Services
                 query = query.Include(e => e.PalestrantesEventos).ThenInclude(pe => pe.Palestrante);
             }
 
-            return await query.ToArrayAsync();
+            return await PageList<Evento>.CreatePageAsync(query, pageParams.PageNumber, pageParams.PageSize);
         }
 
         public async Task<Evento> GetEventoByIdAsync(int userId, int id, bool includePalestrantes)

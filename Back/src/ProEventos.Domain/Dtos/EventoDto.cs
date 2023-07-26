@@ -11,6 +11,7 @@ namespace ProEventos.Domain.Dtos
         MinLength(3, ErrorMessage = Messages.MINLENGTH),
         MaxLength(32, ErrorMessage = Messages.MAXLENGTH)]
         public string Local {get;set;}
+        [Required( ErrorMessage = Messages.REQUIRED)]
         public string DataEvento {get;set;}
         [Required( ErrorMessage = Messages.REQUIRED),
         MinLength(4, ErrorMessage = Messages.MINLENGTH),

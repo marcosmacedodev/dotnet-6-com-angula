@@ -6,6 +6,7 @@ using ProEventos.API.Utils;
 using ProEventos.Application.Services;
 using ProEventos.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using ProEventos.Persistence.Pages;
 
 namespace ProEventos.API.Controllers
 {
@@ -24,9 +25,9 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(){
+        public async Task<IActionResult> GetAll([FromQuery] PageParams pageParams){
             int userId = User.GetUserId();
-            return Ok(await _service.GetAllEventosAsync(userId));
+            return Ok(await _service.GetAllEventosAsync(userId, pageParams));
         }
 
         [HttpGet("{eventoId}")]
@@ -36,14 +37,6 @@ namespace ProEventos.API.Controllers
             if (evento == null) return NotFound();
             evento.ImagemUrl = $"{(Request.IsHttps? "https": "http")}://{Request.Host.Value}/resources/images/{evento.ImagemUrl}";
             return Ok(evento);
-        }
-        
-        [HttpGet("{tema}/tema")]
-        public async Task<IActionResult> GetsByTema(string tema){
-            int userId = User.GetUserId();
-            EventoDto [] eventos = await _service.GetAllEventosDtoByTemaAsync(userId, tema);
-            if (eventos == null) return NotFound();
-            return Ok(eventos);
         }
 
         [HttpPost]

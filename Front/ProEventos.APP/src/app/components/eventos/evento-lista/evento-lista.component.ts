@@ -4,6 +4,8 @@ import { EventoService } from 'src/app/services/evento.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { PageModel } from 'src/app/models/PageModel';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-evento-lista',
@@ -12,10 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class EventoListaComponent {
 
-  public eventos: Evento[] = [];
-  public eventosFiltrado: Evento[] = [];
-  private _filtroLista: string = '';
-  private _eventoId: number = 0;
+  public page: PageModel<Evento> = {pageSize: 3} as PageModel<Evento>;
   private modalRef?: BsModalRef;
 
   constructor(
@@ -29,12 +28,12 @@ export class EventoListaComponent {
     this.getEventos();
   }
 
-  public deleteEvento(): void{
+  private deleteEvento(eventoId: number): void{
     this.spinner.show();
-    this.eventoService.deleteEvento(this._eventoId).subscribe({
+    this.eventoService.deleteEvento(eventoId).subscribe({
       next: (response: Evento) => {
         this.getEventos();
-        this.toastr.success(`Código de evento: ${this._eventoId}, removido`, 'Excluir');
+        this.toastr.success(`Código de evento: ${eventoId}, removido`, 'Excluir');
       },
       error: (err) => {
         this.toastr.error(err.message, err.statusText);
@@ -44,45 +43,30 @@ export class EventoListaComponent {
     }).add(() => this.spinner.hide());
   }
 
-  public get eventoId(): number{
-    return this._eventoId;
-  }
-
-  openModal(template: TemplateRef<any>, eventoId: number) {
-    this._eventoId = eventoId;
+  public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
-  confirm(): void {
-    this.deleteEvento();
+  public confirm(eventoId: number): void {
+    this.deleteEvento(eventoId);
     this.modalRef?.hide();
   }
 
-  decline(): void {
+  public decline(): void {
     this.modalRef?.hide();
   }
 
-  public get filtroLista(): string{
-    return this._filtroLista;
-  }
-
-  public set filtroLista(value: string){
-    this._filtroLista = value;
-    this.eventosFiltrado = this.filtroLista ? this.filtrarEventos(this.filtroLista): this.eventos;
-  }
-
-  private filtrarEventos(filtrarPor: string): Evento[]{
-    filtrarPor = filtrarPor.toLocaleLowerCase();
-    return this.eventos.filter(
-      (evento: any) => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1 ||
-      evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1
-      )
+  public pageChanged(event: PageChangedEvent): void {
+    this.page.pageNumber = event.page;
+    this.getEventos();
   }
 
   private getEventos(): void{
     this.spinner.show();
-    this.eventoService.getEventos().subscribe({
-      next : (response) => {this.eventos = response; this.eventosFiltrado = this.eventos},
+    this.eventoService.getEventos(this.page).subscribe({
+      next : (response) => {
+        this.page = response;
+      },
       error: (err) => {
         this.toastr.error(err.message, err.statusText);
         console.error(err);

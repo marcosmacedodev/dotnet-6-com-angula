@@ -3,7 +3,7 @@
   <label class="col-form-label">Filtro:</label>
   </div>
   <div class="col-sm-12 col-md-4">
-    <input class="form-control mr-2" type="search" placeholder="Buscar" aria-label="Search" [(ngModel)]="filtroLista">
+    <input class="form-control mr-2" type="search" placeholder="Buscar" aria-label="Search">
   </div>
   <div class="col-1">
     <a class="btn btn-outline-success" routerLink="../detalhe">Novo</a>
@@ -22,28 +22,29 @@
       <th>Opções</th>
     </tr>
   </thead>
-  <tbody *ngIf="eventosFiltrado && eventosFiltrado.length">
-    <tr *ngFor="let evento of eventosFiltrado">
+  <tbody *ngIf="page?.items && page?.items?.length">
+    <tr *ngFor="let evento of page?.items">
       <td>{{evento.id}}</td>
       <td class="d-none d-md-table-cell"><img src="{{evento.imagemUrl}}" width="120" height="120" /> </td>
       <td>{{evento.tema}}</td>
       <td class="d-none d-md-table-cell">{{evento.local}}</td>
-      <td>{{evento.dataEvento}}</td>
+      <td>{{evento.dataEvento|date: 'dd/MM/yyyy hh:mm a'}}</td>
       <td class="d-none d-md-table-cell">{{evento.qtdPessoas}}</td>
       <td class="d-none d-md-table-cell">{{evento.lotes}}</td>
       <td>
         <a type="button" class="btn btn-primary btn-sm d-none d-md-inline" routerLink="../detalhe/{{evento.id}}">Editar</a>
-        <button type="button" class="btn btn-danger btn-sm" (click)="openModal(template, evento.id)">Excluir</button>
+        <button class="btn btn-danger btn-sm" (click)="openModal(template)">Excluir</button>
       </td>
+      <ng-template #template>
+        <div class="modal-body text-center">
+          <p>Deseja remover evento com id: {{evento.id}}?</p>
+          <button type="button" class="btn btn-default" (click)="confirm(evento.id)" >Sim</button>
+          <button type="button" class="btn btn-primary" (click)="decline()" >Não</button>
+        </div>
+      </ng-template>
     </tr>
   </tbody>
 </table>
+<pagination [totalItems]="page.totalCount" (numPages)="page.totalPages" [itemsPerPage]="page.pageSize" (pageChanged)="pageChanged($event)"></pagination>
 
-<ng-template #template>
-  <div class="modal-body text-center">
-    <p>Deseja remover evento com id: {{eventoId}}?</p>
-    <button type="button" class="btn btn-default" (click)="confirm()" >Sim</button>
-    <button type="button" class="btn btn-primary" (click)="decline()" >Não</button>
-  </div>
-</ng-template>
 

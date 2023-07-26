@@ -72,5 +72,7 @@ namespace ProEventos.API.Controllers
                 Token = _tokenService.CreateToken(user).Result
             });
         }
+
     }
+
 }
