@@ -4,8 +4,8 @@ namespace ProEventos.Persistence.Contracts
 {
     public interface IRepositoryLote
     {
-        Task<Lote[]> GetAllLotes(bool includeEvento);
-        Task<Lote[]> GetLotesByEventoIdAsync(int eventoId, bool includeEvento);
-        Task<Lote> GetLoteByIdsAsync(int eventoId, int loteId, bool includeEvento);
+        Task<Lote[]> GetAllLotes();
+        Task<Lote[]> GetLotesByEventoIdAsync(int eventoId);
+        Task<Lote> GetLoteByIdsAsync(int eventoId, int loteId);
     }
 }

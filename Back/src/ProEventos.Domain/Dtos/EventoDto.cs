@@ -27,8 +27,11 @@ namespace ProEventos.Domain.Dtos
         [Required(ErrorMessage = Messages.REQUIRED),
         Phone(ErrorMessage = Messages.PHONE)]
         public string Telefone {get;set;}
-        //public IEnumerable<LoteDto>? Lotes {get;set;}
-        //public IEnumerable<RedeSocialDto>? RedesSociais {get; set;}
-        //public IEnumerable<PalestranteDto>? Palestrantes { get; set; }
+        public int UserId { get; set; }
+        public UserDto User { get; set; }
+        public IEnumerable<LoteDto> Lotes {get;set;}
+        public IEnumerable<RedeSocialDto> RedesSociais {get; set;}
+        public IEnumerable<PalestranteDto> Palestrantes { get; set; }
+
     }
 }

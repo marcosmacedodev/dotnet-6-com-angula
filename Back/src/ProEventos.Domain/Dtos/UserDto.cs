@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ProEventos.Domain.Identity;
 using ProEventos.Domain.Util;
 
 namespace ProEventos.Domain.Dtos
@@ -25,5 +26,14 @@ namespace ProEventos.Domain.Dtos
         MinLength(3, ErrorMessage = Messages.MINLENGTH),
         MaxLength(16, ErrorMessage = Messages.MAXLENGTH)]
         public string LastName { get; set; }
+
+        public static explicit operator UserDto(User user){
+            return new UserDto(){
+                UserName = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+        }
     }
 }

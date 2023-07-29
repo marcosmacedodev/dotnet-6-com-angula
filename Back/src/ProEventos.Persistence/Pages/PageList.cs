@@ -27,5 +27,6 @@ namespace ProEventos.Persistence.Pages
             List<T> items = await source.Skip((pageNumber -1) * pageSize).Take(pageSize).ToListAsync();
             return new PageList<T>(items, count, pageNumber, pageSize);
         }
+
     }
 }

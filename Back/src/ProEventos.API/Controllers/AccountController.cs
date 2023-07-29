@@ -46,9 +46,7 @@ namespace ProEventos.API.Controllers
             UserUpdateDto user = await _accountService.GetUserByUserNameAsync(loginDto.UserName);
             if(user == null) return Unauthorized();
             var signInResult = await _accountService.CheckUserPasswordAsync(user, loginDto.Password);
-            if (!signInResult.Succeeded){
-                return Unauthorized();
-            }
+            if (!signInResult.Succeeded) return Unauthorized();
             return Ok(new {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -64,7 +62,7 @@ namespace ProEventos.API.Controllers
             UserUpdateDto user = await _accountService.GetUserByUserNameAsync(User.GetUserName());
             if(user == null) Unauthorized();
             user = await _accountService.UpdateAccountAsync(userUpdateDto);
-            if(user == null) return BadRequest();
+            if(user == null) return BadRequest($"Erro ao atualizar conta '{userUpdateDto.UserName}'.");
             return Ok(new {
                 FirstName = user.FirstName,
                 LastName = user.LastName,

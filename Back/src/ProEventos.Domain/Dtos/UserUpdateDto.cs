@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ProEventos.Domain.Identity;
 using ProEventos.Domain.Util;
 
 namespace ProEventos.Domain.Dtos
@@ -26,6 +27,21 @@ namespace ProEventos.Domain.Dtos
         public string UserType { get; set; }
         public string Description { get; set; }
         public string Password { get; set; }
-        public string Token { get; set; }
+        //public string Token { get; set; }
+
+        public static explicit operator UserUpdateDto(User user){
+            if (user == null) return null;
+            return new UserUpdateDto(){
+                Id = user.Id,
+                UserGrade = user.UserGrade.ToString(),
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                UserType = user.UserType.ToString(),
+                Description = user.Description
+            };
+        }
     }
 }

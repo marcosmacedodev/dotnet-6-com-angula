@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using ProEventos.Domain.Dtos;
 
 namespace ProEventos.Domain
 {

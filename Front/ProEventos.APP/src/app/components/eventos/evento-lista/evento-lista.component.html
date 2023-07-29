@@ -25,7 +25,7 @@
   <tbody *ngIf="page?.items && page?.items?.length">
     <tr *ngFor="let evento of page?.items">
       <td>{{evento.id}}</td>
-      <td class="d-none d-md-table-cell"><img src="{{evento.imagemUrl}}" width="120" height="120" /> </td>
+      <td class="d-none d-md-table-cell"><img src="{{evento.imagemUrl}}" width="128" height="96" /> </td>
       <td>{{evento.tema}}</td>
       <td class="d-none d-md-table-cell">{{evento.local}}</td>
       <td>{{evento.dataEvento|date: 'dd/MM/yyyy hh:mm a'}}</td>
