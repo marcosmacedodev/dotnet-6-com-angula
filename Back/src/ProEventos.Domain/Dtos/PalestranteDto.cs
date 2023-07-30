@@ -8,6 +8,5 @@ namespace ProEventos.Domain.Dtos
         public UserUpdateDto User { get; set; }
         public IEnumerable<RedeSocialDto> RedeSociais { get; set; }
         public IEnumerable<EventoDto> Eventos { get; set; }
-
     }
 }

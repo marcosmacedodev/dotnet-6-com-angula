@@ -9,18 +9,16 @@ namespace ProEventos.Application.Mappers
     {
         public ProEventosMapper()
         {
-            CreateMap<Evento, EventoDto>();
-            CreateMap<EventoDto, Evento>();
+            CreateMap<Evento, EventoDto>().ReverseMap();
+    
+            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserUpdateDto>().ReverseMap();
 
-            CreateMap<User, UserDto>();
-            CreateMap<User, UserUpdateDto>();
-            CreateMap<UserDto, User>();
-            CreateMap<UserUpdateDto, User>();
+            CreateMap<Lote, LoteDto>().ReverseMap();
 
-            CreateMap<Lote, LoteDto>();
-            CreateMap<LoteDto, Lote>();
-            CreateMap<Lote[], LoteDto[]>();
+            CreateMap<RedeSocial, RedeSocialDto>().ReverseMap();
+
+            CreateMap<Palestrante, PalestranteDto>().ReverseMap();
         }
-        
     }
 }

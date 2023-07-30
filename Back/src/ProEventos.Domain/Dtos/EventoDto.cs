@@ -6,7 +6,6 @@ namespace ProEventos.Domain.Dtos
     public class EventoDto
     {
         public int Id {get;set;}
-
         [Required( ErrorMessage = Messages.REQUIRED),
         MinLength(3, ErrorMessage = Messages.MINLENGTH),
         MaxLength(32, ErrorMessage = Messages.MAXLENGTH)]
@@ -32,6 +31,5 @@ namespace ProEventos.Domain.Dtos
         public IEnumerable<LoteDto> Lotes {get;set;}
         public IEnumerable<RedeSocialDto> RedesSociais {get; set;}
         public IEnumerable<PalestranteDto> Palestrantes { get; set; }
-
     }
 }

@@ -66,7 +66,6 @@ namespace ProEventos.Application.Services
         {
             PageList<Evento> eventos = await _repositoryEvento
             .GetAllEventosAsync(userId, pageParams, false);
-            
             return eventos;
         }
 

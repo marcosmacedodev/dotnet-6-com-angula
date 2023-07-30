@@ -9,7 +9,6 @@ namespace ProEventos.Domain.Dtos
         public string DataFim { get; set; }
         public int Quantidade { get; set; }
         public int? EventoId { get; set; }
-        public EventoDto Evento {get;set;}
-
+        //public EventoDto Evento {get;set;}
     }
 }

@@ -13,6 +13,7 @@ using ProEventos.Persistence.Contracts;
 using ProEventos.Persistence.Services;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using ProEventos.Application.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,6 @@ builder.Services.AddDbContext<ProEventosContext>(context => context.UseInMemoryD
 builder.Services.AddControllers()
 .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddIdentityCore<User>(
     options =>
     { 
@@ -59,6 +59,8 @@ builder.Services.AddScoped<IRepository, RepositoryImpl>();
 builder.Services.AddScoped<IRepositoryEvento, RepositoryEventoImpl>();
 builder.Services.AddScoped<IRepositoryLote, RepositoryLoteImpl>();
 builder.Services.AddScoped<IRepositoryUser, RepositoryUserImpl>();
+
+builder.Services.AddAutoMapper(typeof(ProEventosMapper));
 
 //builder.Services.AddHttpContextAccessor();
 
