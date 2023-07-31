@@ -47,10 +47,10 @@ namespace ProEventos.Persistence.Services
             return await PageList<Evento>.CreatePageAsync(query, pageParams.PageNumber, pageParams.PageSize);
         }
 
-        public async Task<Evento> GetEventoByIdAsync(int userId, int id, bool includePalestrantes)
+        public async Task<Evento> GetEventoByIdAsync(int userId, int eventoId, bool includePalestrantes)
         {
              IQueryable<Evento> query = _context.Eventos
-            .Where(e => e.Id.Equals(id))
+            .Where(e => e.Id.Equals(eventoId))
             .Where(e => e.UserId.Equals(userId))
             .Include(e => e.Lotes)
             .Include(e => e.RedesSociais)

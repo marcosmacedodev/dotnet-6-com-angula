@@ -8,8 +8,8 @@ namespace ProEventos.Persistence.Contracts
 {
     public interface IRepositoryRedeSocial
     {
-        Task<RedeSocial> GetRedeSocialEventoByIdAsync(int eventoId, int id);
-        Task<RedeSocial> GetRedeSocialPalestranteByIdAsync(int palestranteId, int id);
+        Task<RedeSocial> GetRedeSocialEventoByIdsAsync(int eventoId, int redeSocialId);
+        Task<RedeSocial> GetRedeSocialPalestranteByIdsAsync(int palestranteId, int redeSocialId);
         Task<RedeSocial[]> GetAllByEventoIdAsync(int eventoId);
         Task<RedeSocial[]> GetAllByPalestranteIdAsync(int palestranteId);
     }

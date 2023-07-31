@@ -39,9 +39,16 @@ namespace ProEventos.Application.Services
         }
         public async Task<bool> DeleteEvento(EventoDto eventoDto)
         {
-            Evento entity = _mapper.Map<Evento>(eventoDto);
-            _repository.Delete<Evento>(entity);
-            return await _repository.SaveChangesAsync();
+            try
+            {
+                Evento entity = _mapper.Map<Evento>(eventoDto);
+                _repository.Delete<Evento>(entity);
+                return await _repository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<EventoDto> UpdateEvento(int userId, int eventoId, EventoDto eventoDto)
@@ -62,19 +69,26 @@ namespace ProEventos.Application.Services
             }
         }
 
-        public async Task<PageList<Evento>> GetAllEventosAsync(int userId, PageParams pageParams)
-        {
-            PageList<Evento> eventos = await _repositoryEvento
-            .GetAllEventosAsync(userId, pageParams, false);
-            return eventos;
-        }
-
-        public async Task<EventoDto> GetEventoByIdAsync(int userId, int id)
+        public async Task<PageList<EventoDto>> GetAllEventosAsync(int userId, PageParams pageParams)
         {
             try
             {
-                Evento evento = await _repositoryEvento.GetEventoByIdAsync(userId, id, false);
-                return _mapper.Map<EventoDto>(evento);
+                PageList<Evento> entities = await _repositoryEvento
+                .GetAllEventosAsync(userId, pageParams, false);
+                return _mapper.Map<PageList<EventoDto>>(entities);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<EventoDto> GetEventoByIdAsync(int userId, int eventoId)
+        {
+            try
+            {
+                Evento entity = await _repositoryEvento.GetEventoByIdAsync(userId, eventoId, false);
+                return _mapper.Map<EventoDto>(entity);
             }
             catch (Exception ex)
             {

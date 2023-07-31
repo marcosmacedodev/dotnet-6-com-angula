@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using ProEventos.Domain.Util;
 
 namespace ProEventos.Domain.Dtos
 {
@@ -9,6 +7,7 @@ namespace ProEventos.Domain.Dtos
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        [Required( ErrorMessage = Messages.REQUIRED)]
         public string MiniCurriculo { get; set; }
     }
 }

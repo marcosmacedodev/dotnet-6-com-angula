@@ -31,7 +31,7 @@ namespace ProEventos.Persistence.Services
             return await PageList<Palestrante>.CreatePageAsync(query, pageParams.PageNumber, pageParams.PageSize);
         }
 
-        public async Task<Palestrante> GetPalestranteByIdAsync(int userId, bool includeEventos)
+        public async Task<Palestrante> GetPalestranteByUserIdAsync(int userId, bool includeEventos)
         {
             IQueryable<Palestrante> query = _context.Palestrantes
             .Include(p => p.User)
@@ -40,7 +40,7 @@ namespace ProEventos.Persistence.Services
             if( includeEventos){
                 query = query.Include(p => p.PalestrantesEventos).ThenInclude(pe => pe.Evento);
             }
-            return await query.FirstAsync();
+            return await query.FirstOrDefaultAsync();
         }
     }
 }

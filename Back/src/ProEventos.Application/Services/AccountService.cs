@@ -25,6 +25,20 @@ namespace ProEventos.Application.Services
             _repository = repository;
         }
 
+        private void validateUpdate(ref User user, UserUpdateDto userUpdate)
+        {
+            UserGrade userGrade;
+            UserType userType;
+            if(userUpdate.FirstName != null) user.FirstName = userUpdate.FirstName;
+            if(userUpdate.LastName != null) user.LastName = userUpdate.LastName;
+            if(userUpdate.Email != null) user.Email = userUpdate.Email;
+            if(userUpdate.Description != null) user.Description = userUpdate.Description;
+            if(userUpdate.ImageUrl != null) user.ImageUrl = userUpdate.ImageUrl;
+            if(userUpdate.PhoneNumber != null) user.PhoneNumber = userUpdate.PhoneNumber;
+            if(userUpdate.UserGrade != null) user.UserGrade = Enum.TryParse<UserGrade>(userUpdate.UserGrade, true, out userGrade)? userGrade: UserGrade.NaoInformado;
+            if(userUpdate.UserType != null) user.UserType = Enum.TryParse<UserType>(userUpdate.UserGrade, true, out userType)? userType: UserType.NaoInformado;
+        }
+
         public async Task<SignInResult> CheckUserPasswordAsync(UserUpdateDto userUpdateDto, string password)
         {
             try
@@ -75,7 +89,8 @@ namespace ProEventos.Application.Services
         {
             try
             {
-                User entity = _mapper.Map<User>(userUpdateDto);
+                User entity = await _repositoryUser.GetUserByUserNameAsync(userUpdateDto.UserName);
+                validateUpdate(ref entity, userUpdateDto);
                 if(userUpdateDto.Password != null)
                 {
                     string token = await _userManager.GeneratePasswordResetTokenAsync(entity);
@@ -84,7 +99,8 @@ namespace ProEventos.Application.Services
                 _repository.Update<User>(entity);
                 if(await _repository.SaveChangesAsync())
                 {
-                    return await GetUserByUserNameAsync(userUpdateDto.UserName);
+                    entity = await _repositoryUser.GetUserByUserNameAsync(userUpdateDto.UserName);
+                    return _mapper.Map<UserUpdateDto>(entity);
                 }
                 
                 return null;

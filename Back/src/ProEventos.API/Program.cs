@@ -12,7 +12,6 @@ using ProEventos.Persistence.Contexts;
 using ProEventos.Persistence.Contracts;
 using ProEventos.Persistence.Services;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 using ProEventos.Application.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,13 +51,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<ILoteService, LoteService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IPalestranteService, PalestranteService>();
+builder.Services.AddScoped<IRedeSocialService, RedeSocialService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<UtilsServices>();
+builder.Services.AddScoped<IUtilsService, UtilsService>();
 
 builder.Services.AddScoped<IRepository, RepositoryImpl>();
 builder.Services.AddScoped<IRepositoryEvento, RepositoryEventoImpl>();
 builder.Services.AddScoped<IRepositoryLote, RepositoryLoteImpl>();
 builder.Services.AddScoped<IRepositoryUser, RepositoryUserImpl>();
+builder.Services.AddScoped<IRepositoryPalestrante, RepositoryPalestranteImpl>();
+builder.Services.AddScoped<IRepositoryRedeSocial, RepositoryRedeSocialImpl>();
 
 builder.Services.AddAutoMapper(typeof(ProEventosMapper));
 

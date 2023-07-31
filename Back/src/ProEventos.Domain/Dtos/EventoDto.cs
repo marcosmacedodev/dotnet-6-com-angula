@@ -5,31 +5,32 @@ namespace ProEventos.Domain.Dtos
 {
     public class EventoDto
     {
-        public int Id {get;set;}
+        public int Id { get; set; }
         [Required( ErrorMessage = Messages.REQUIRED),
         MinLength(3, ErrorMessage = Messages.MINLENGTH),
         MaxLength(32, ErrorMessage = Messages.MAXLENGTH)]
-        public string Local {get;set;}
-        [Required( ErrorMessage = Messages.REQUIRED)]
-        public string DataEvento {get;set;}
+        public string Local { get; set; }
+        [Required( ErrorMessage = Messages.REQUIRED),
+        DataType(DataType.DateTime)]
+        public string DataEvento { get; set; }
         [Required( ErrorMessage = Messages.REQUIRED),
         MinLength(4, ErrorMessage = Messages.MINLENGTH),
         MaxLength(50, ErrorMessage = Messages.MAXLENGTH)]
-        public string Tema {get;set;}
+        public string Tema { get; set; }
         [Range(1, 120000, ErrorMessage = Messages.RANGE)]
-        public int QtdPessoas {get;set;}
+        public int QtdPessoas { get; set; }
         //[RegularExpression(@".*\.(gif|jpe?g|bmp|png)$", ErrorMessage = Messages.REIMGFORMAT)]
-        public string ImagemUrl {get;set;}
+        public string ImagemUrl { get; set; }
         [Required(ErrorMessage = Messages.REQUIRED),
         EmailAddress( ErrorMessage = Messages.EMAILADDRESS)]
-        public string Email {get; set;}
+        public string Email { get; set; }
         [Required(ErrorMessage = Messages.REQUIRED),
         Phone(ErrorMessage = Messages.PHONE)]
-        public string Telefone {get;set;}
+        public string Telefone { get; set; }
         public int UserId { get; set; }
         public UserDto User { get; set; }
-        public IEnumerable<LoteDto> Lotes {get;set;}
-        public IEnumerable<RedeSocialDto> RedesSociais {get; set;}
+        public IEnumerable<LoteDto> Lotes { get; set; }
+        public IEnumerable<RedeSocialDto> RedesSociais { get; set; }
         public IEnumerable<PalestranteDto> Palestrantes { get; set; }
     }
 }

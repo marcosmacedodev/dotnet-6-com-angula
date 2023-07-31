@@ -29,14 +29,11 @@ namespace ProEventos.Application.Services
 
                     if (entity == null)
                     {
-                        loteDto.Id = 0;
                         await AddLote(eventoId, loteDto);
                     }
                     else
                     {
-                        entity = _mapper.Map<Lote>(loteDto);
-                        _repository.Update<Lote>(entity);
-                        await _repository.SaveChangesAsync();
+                        await UpdateLote(eventoId, entity.Id, loteDto);
                     }
                 }
                 entities = await _repositoryLote.GetLotesByEventoIdAsync(eventoId);
@@ -64,19 +61,19 @@ namespace ProEventos.Application.Services
         {
             try
             {
-                Lote[] lotes = await _repositoryLote.GetLotesByEventoIdAsync(eventoId);
-                return _mapper.Map<LoteDto[]>(lotes);
+                Lote[] entities = await _repositoryLote.GetLotesByEventoIdAsync(eventoId);
+                return _mapper.Map<LoteDto[]>(entities);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<LoteDto> GetLoteByIdsAsync(int eventoId, int id)
+        public async Task<LoteDto> GetLoteByIdsAsync(int eventoId, int loteId)
         {
             try
             {
-                Lote entity = await _repositoryLote.GetLoteByIdsAsync(eventoId, id);
+                Lote entity = await _repositoryLote.GetLoteByIdsAsync(eventoId, loteId);
                 return _mapper.Map<LoteDto>(entity);
             }
             catch (Exception ex)
@@ -89,6 +86,7 @@ namespace ProEventos.Application.Services
             try
             {
                 Lote entity = _mapper.Map<Lote>(loteDto);
+                entity.Id = 0;
                 entity.EventoId = eventoId;
                 _repository.Add<Lote>(entity);
                 await _repository.SaveChangesAsync();

@@ -14,14 +14,14 @@ namespace ProEventos.Persistence.Services
             _context = context;    
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(int userId)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.Users.FindAsync(userId);
         }
 
         public async Task<User> GetUserByUserNameAsync(string username)
         {
-            return await _context.Users.SingleOrDefaultAsync(user => user.UserName == username.ToLower());
+            return await _context.Users.AsNoTracking().SingleOrDefaultAsync(user => user.UserName == username.ToLower());
         }
 
         public async Task<User[]> GetUsersAsync()

@@ -8,7 +8,14 @@ namespace ProEventos.Persistence.Pages
         public int TotalPages { get; set; }
         public int PageSize { get; set; }
         public int TotalCount { get; set; }
+        public bool HasPrevious => PageNumber > 1;
+        public bool HasNext => TotalPages > PageNumber;
         public List<T> Items { get; set; } = new List<T>();
+
+        public PageList()
+        {
+
+        }
 
         public PageList(List<T> items, int count, int pageNumber, int pageSize)
         {

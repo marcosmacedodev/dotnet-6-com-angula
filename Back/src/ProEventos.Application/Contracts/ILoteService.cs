@@ -10,7 +10,7 @@ namespace ProEventos.Application.Contracts
         Task<LoteDto[]> SaveLotes(int eventoId, LoteDto[] entities);
         Task<bool> DeleteLote(LoteDto loteDto);
         Task<LoteDto[]> GetLotesByEventoIdAsync(int eventoId);
-        Task<LoteDto> GetLoteByIdsAsync(int eventoId, int id);
+        Task<LoteDto> GetLoteByIdsAsync(int eventoId, int loteId);
 
     }
 }

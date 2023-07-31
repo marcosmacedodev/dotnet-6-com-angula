@@ -35,22 +35,22 @@ namespace ProEventos.Persistence.Services
             return await query.ToArrayAsync();
         }
 
-        public async Task<RedeSocial> GetRedeSocialEventoByIdAsync(int eventoId, int id)
+        public async Task<RedeSocial> GetRedeSocialEventoByIdsAsync(int eventoId, int redeSocialId)
         {
             IQueryable<RedeSocial> query = _context.RedesSociais
             .Include(rs => rs.Evento)
             .Include(rs => rs.Palestrante)
-            .Where(rs => rs.Id.Equals(id) && rs.EventoId.Equals(eventoId))
+            .Where(rs => rs.Id.Equals(redeSocialId) && rs.EventoId.Equals(eventoId))
             .AsNoTracking();
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<RedeSocial> GetRedeSocialPalestranteByIdAsync(int palestranteId, int id)
+        public async Task<RedeSocial> GetRedeSocialPalestranteByIdsAsync(int palestranteId, int redeSocialId)
         {
             IQueryable<RedeSocial> query = _context.RedesSociais
             .Include(rs => rs.Evento)
             .Include(rs => rs.Palestrante)
-            .Where(rs => rs.Id.Equals(id) && rs.PalestranteId.Equals(palestranteId))
+            .Where(rs => rs.Id.Equals(redeSocialId) && rs.PalestranteId.Equals(palestranteId))
             .AsNoTracking();
             return await query.FirstOrDefaultAsync();
         }

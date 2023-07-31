@@ -6,6 +6,6 @@ namespace ProEventos.Persistence.Contracts
     public interface IRepositoryPalestrante
     {
         Task<PageList<Palestrante>> GetAllPalestrantesAsync(PageParams pageParams, bool includeEventos);
-        Task<Palestrante> GetPalestranteByIdAsync(int userId, bool includeEventos);
+        Task<Palestrante> GetPalestranteByUserIdAsync(int userId, bool includeEventos);
     }
 }
