@@ -15,12 +15,12 @@ namespace ProEventos.API.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly ITokenService _tokenService;
-        private readonly IUtilsService _utilsService;
+        private readonly IUtilService _utilService;
 
         private readonly string _folder = "Images";
-        public AccountController(IAccountService accountService, ITokenService tokenService, IUtilsService utilsService)
+        public AccountController(IAccountService accountService, ITokenService tokenService, IUtilService utilService)
         {
-            _utilsService = utilsService;
+            _utilService = utilService;
             _accountService = accountService;
             _tokenService = tokenService;
         }
@@ -82,8 +82,8 @@ namespace ProEventos.API.Controllers
             if (userUpdateDto == null) return Unauthorized();
             if (file.Length > 0)
             {
-                 _utilsService.DeleteImage(userUpdateDto.ImageUrl, "images");
-                 string path = await _utilsService.SaveImage(file, "images");
+                 _utilService.DeleteImage(userUpdateDto.ImageUrl, "images");
+                 string path = await _utilService.SaveImage(file, "images");
                  string fullPath =  $"{(Request.IsHttps? "https": "http")}://{Request.Host.Value}/resources/images/{path}";
                  userUpdateDto.ImageUrl = path;
                  await _accountService.UpdateAccountAsync(userUpdateDto);

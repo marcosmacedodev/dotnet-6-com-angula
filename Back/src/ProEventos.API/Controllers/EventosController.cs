@@ -15,9 +15,9 @@ namespace ProEventos.API.Controllers
     {
         private readonly IEventoService _service;
         private readonly ILoteService _loteService;
-        private readonly IUtilsService _utils;
+        private readonly IUtilService _utils;
         private readonly IRedeSocialService _redeSocialService;
-        public EventosController(IEventoService service, ILoteService loteService, IRedeSocialService redeSocialService, IUtilsService utils){
+        public EventosController(IEventoService service, ILoteService loteService, IRedeSocialService redeSocialService, IUtilService utils){
             _redeSocialService = redeSocialService;
             _utils = utils;
             _service = service;

@@ -2,10 +2,10 @@ using System.Security.Claims;
 
 namespace ProEventos.API.Utils
 {
-    public class UtilsService: IUtilsService
+    public class UtilService: IUtilService
     {
         private readonly IWebHostEnvironment _hostEnvironment;
-        public UtilsService(IWebHostEnvironment hostEnvironment)
+        public UtilService(IWebHostEnvironment hostEnvironment)
         {
             _hostEnvironment = hostEnvironment;
         }

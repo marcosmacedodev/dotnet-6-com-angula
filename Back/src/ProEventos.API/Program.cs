@@ -54,7 +54,7 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IPalestranteService, PalestranteService>();
 builder.Services.AddScoped<IRedeSocialService, RedeSocialService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IUtilsService, UtilsService>();
+builder.Services.AddScoped<IUtilService, UtilService>();
 
 builder.Services.AddScoped<IRepository, RepositoryImpl>();
 builder.Services.AddScoped<IRepositoryEvento, RepositoryEventoImpl>();
