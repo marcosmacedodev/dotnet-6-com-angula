@@ -58,6 +58,8 @@ namespace ProEventos.Application.Services
             {
                 User entity = _mapper.Map<User>(userDto);
                 IdentityResult result = await _userManager.CreateAsync(entity, userDto.Password);
+                entity.UserGrade = UserGrade.NaoInformado;
+                entity.UserType = UserType.NaoInformado;
                 if(result.Succeeded)
                 {
                     entity = await _repositoryUser.GetUserByUserNameAsync(userDto.UserName);

@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using ProEventos.Domain.Identity;
+using ProEventos.Domain.Enums;
 using ProEventos.Domain.Util;
 
 namespace ProEventos.Domain.Dtos
@@ -7,6 +7,7 @@ namespace ProEventos.Domain.Dtos
     public class UserUpdateDto
     {
         public int Id { get; set; }
+        [EnumDataType(typeof(UserGrade))]
         public string UserGrade { get; set; }
         [Required( ErrorMessage = Messages.REQUIRED),
         MinLength(4, ErrorMessage = Messages.MINLENGTH),
@@ -23,8 +24,11 @@ namespace ProEventos.Domain.Dtos
         [Required( ErrorMessage = Messages.REQUIRED),
         EmailAddress(ErrorMessage = Messages.EMAILADDRESS)]
         public string Email { get; set; }
+        [Phone(ErrorMessage = Messages.PHONE)]
         public string PhoneNumber { get; set; }
+        [DataType(DataType.ImageUrl)]
         public string ImageUrl { get; set; }
+        [EnumDataType(typeof(UserType))]
         public string UserType { get; set; }
         public string Description { get; set; }
         [DataType(DataType.Password)]
