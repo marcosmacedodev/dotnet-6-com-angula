@@ -108,6 +108,7 @@
               Confirme a senha
             </div>
           </div>
+          <div *ngIf="!form.get('confirm_password')?.invalid && form.errors?.['confirmPassword']" class="alert alert-danger">Senhas não combinam</div>
         </div>
       </div>
       <div class="form-row p-1 mb-3">

@@ -1,5 +1,5 @@
 import { NgModule, Component, inject } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes} from '@angular/router';
 import { EventosComponent } from './components/eventos/eventos.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PalestrantesComponent } from './components/palestrantes/palestrantes.component';
@@ -10,12 +10,17 @@ import { EventoDetalheComponent } from './components/eventos/evento-detalhe/even
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
-import { AuthGuard } from './guard/auth.guard';
+import { AuthGuard} from './guard/auth.guard';
 import { HomeComponent } from './components/home/home.component';
+import { NoAuthGuard } from './guard/no-auth.guard';
 
 const routes: Routes = [
-
-  {path: 'usuario', component: UserComponent,
+  {
+    path: 'usuario', redirectTo: 'usuario/login'
+  },
+  {
+    path: 'usuario', component: UserComponent,
+    canActivateChild: [() => inject(NoAuthGuard).canActivateChild()],
     children: [
       {path: 'login', component: LoginComponent},
       {path: 'registrar', component: RegistrationComponent}

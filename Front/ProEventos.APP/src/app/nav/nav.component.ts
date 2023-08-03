@@ -13,10 +13,11 @@ export class NavComponent implements OnInit {
   constructor(
     public account: AccountService,
     public router: Router,
-    private aRouter: ActivatedRoute
+    public aRouter: ActivatedRoute
     ) { }
 
   ngOnInit() {
+
   }
 
   isCollapsed = true;

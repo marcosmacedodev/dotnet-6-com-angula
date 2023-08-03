@@ -1,34 +1,25 @@
 import { User } from '../models/Users/User';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, map, take } from 'rxjs';
+import { BehaviorSubject, Observable, map, take } from 'rxjs';
 import { Login } from '../models/Users/Login';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService{
 
-  private currentUserSource = new ReplaySubject<User | null>(1);
-  private currentUser$ = this.currentUserSource.asObservable();
+  private currentUserSource :BehaviorSubject<User|null>;
+  public currentUser$: Observable<User|null>
 
   baseUrl = "https://localhost:7283/api/account";
 
-  constructor(private http: HttpClient)
+  constructor(private http: HttpClient, private router: Router)
   {
-    let user: User | null;
-    if(localStorage.getItem('user'))
-      user = JSON.parse(localStorage.getItem('user') ?? '{}');
-    else
-      user = null;
-
-    if(user)
-      this.setCurrentUser(user);
-  }
-
-  public get currentUser(): Observable<User|null>
-  {
-    return this.currentUser$;
+    const user = JSON.parse(localStorage.getItem('user')!) as User;
+    this.currentUserSource = new BehaviorSubject<User|null>(user);
+    this.currentUser$ = this.currentUserSource.asObservable();
   }
 
   public createUser(body: User): Observable<void> {
@@ -59,6 +50,7 @@ export class AccountService{
       const user = response;
       if (user) {
         this.setCurrentUser(user);
+        this.router.navigate(['/home']);
       }
     }));
   }
@@ -72,23 +64,27 @@ export class AccountService{
 
   public isLogged(): boolean
   {
-    return localStorage.getItem('user') != null;
+    const exp1 = localStorage.getItem('user') != null;
+    const exp2 = this.currentUserSource.value != null;
+    return exp1 || exp2;
   }
 
-  public getUserName(): string{
-    let userName: string = '';
-    if(localStorage.getItem('user'))
+  public getUserName(): string|null
+  {
+    let username = null
+    if(this.currentUserSource.value != null)
     {
-      const user: User = JSON.parse(localStorage.getItem('user')?? '{}');
-      userName = user?.userName;
+      username = (this.currentUserSource.value as User).userName;
     }
-    return userName;
+    return username;
   }
 
-  public logout(): void {
+  public logout(): void
+  {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
     this.currentUserSource.complete();
+    this.router.navigate(['/usuario/login']);
   }
 
   private setCurrentUser(user: User): void

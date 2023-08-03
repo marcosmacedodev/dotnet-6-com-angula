@@ -37,6 +37,7 @@ import { PerfilDetalheComponent } from './components/user/perfil/perfil-detalhe/
 import { PalestranteListaComponent } from './components/palestrantes/palestrante-lista/palestrante-lista.component';
 import { PalestranteDetalheComponent } from './components/palestrantes/palestrante-detalhe/palestrante-detalhe.component';
 import { RedessociaisComponent } from './components/redessociais/redessociais.component';
+import { ConfirmPasswordDirective } from './shared/directives/confirm-password.directive';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { RedessociaisComponent } from './components/redessociais/redessociais.co
       PalestranteListaComponent,
       PalestranteDetalheComponent,
       RedessociaisComponent,
+      ConfirmPasswordDirective,
    ],
   imports: [
     BrowserModule,

@@ -6,7 +6,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav" [collapse]="isCollapsed" [isAnimated]="true">
-      <ng-container *ngIf="(account.currentUser | async) != null">
+      <ng-container *ngIf="(account.currentUser$ | async) != null">
         <ul class="navbar-nav">
           <li class="nav-item" >
             <a class="nav-link" routerLinkActive="active" aria-current="page" routerLink="dashboard">Dashboard</a>
@@ -28,9 +28,9 @@
           <a class="btn btn-warning" routerLink="/usuario/registrar">Cadastrar</a>
         </div>
       </ng-template>
-      <ng-container *ngIf="(account.currentUser | async) != null; else templatelogout">
+      <ng-container *ngIf="(account.currentUser$ | async) != null; else templatelogout">
         <ul class="navbar-nav">
-          <li class="nav-item dropdown" dropdown *ngIf="account.currentUser | async as user">
+          <li class="nav-item dropdown" dropdown *ngIf="account.currentUser$ | async as user">
             <a dropdownToggle class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               {{user.firstName}}
@@ -40,7 +40,7 @@
                 Perfil
               </a>
               <div role="separator" class="divider"></div>
-              <a class="dropdown-item" routerLink="usuario/login" (click)="logout()">
+              <a class="dropdown-item" (click)="logout()">
                 Sair
               </a>
             </div>

@@ -1,7 +1,6 @@
 import { AccountService } from 'src/app/services/account.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from 'src/app/models/Users/User';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -43,6 +42,8 @@ export class RegistrationComponent implements OnInit{
       confirm_password: ['', [Validators.required]],
       agree: [false, Validators.requiredTrue]
     });
+
+    this._form.addValidators(ConfirmPasswordValidator());
   }
 
   public createUser(): void{
@@ -61,5 +62,13 @@ export class RegistrationComponent implements OnInit{
       }
     }).add({unsubscribe: () =>this.spinner.hide()});
   }
-
 }
+
+function ConfirmPasswordValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const cp = control.get('confirm_password');
+    const p = control.get('password');
+    return cp && p && cp.value != p.value ? {confirmPassword: {value: cp.value}}: null;
+  };
+}
+

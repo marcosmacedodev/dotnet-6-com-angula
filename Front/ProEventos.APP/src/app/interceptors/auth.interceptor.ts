@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let currentUser: User;
-    this.account.currentUser?.pipe(take(1)).subscribe(user =>{
+    this.account.currentUser$?.pipe(take(1)).subscribe(user =>{
       currentUser = user!;
       if(currentUser!){
         request = request.clone({

@@ -1,6 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from 'src/app/services/account.service';
@@ -30,7 +31,9 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private account: AccountService,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private router: Router,
+    private route: ActivatedRoute
     ){}
 
 
@@ -41,7 +44,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  public onLogin(): void{
+  public login(): void{
     const messages = [];
 
     if (!this.form.controls['userName'].valid)
@@ -61,8 +64,8 @@ export class LoginComponent implements OnInit {
     }
     this.spinner.show();
     this.account.login(this.form.value).subscribe({
-      next: (response: any) => {
-        console.log(response);
+      next: () => {
+        //
       },
       error: (err) => {
         if(err.status == 401)
@@ -71,7 +74,7 @@ export class LoginComponent implements OnInit {
         }
         else
         {
-          this.toastr.error(err.message, err.statusText);
+          this.toastr.error('Não foi possível efetuar o login.');
         }
         console.error(err);
       }
