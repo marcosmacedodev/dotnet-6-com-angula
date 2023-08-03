@@ -1,21 +1,26 @@
 <app-titulo titulo="Perfil" icone="fa-solid fa-user"></app-titulo>
-<form [formGroup]="form">
 	<div class="row p-3">
 		<div class="col-lg-3 pt-1">
 			<div class="card mb-3">
 				<div class="card-header"></div>
 				<div class="d-flex align-self-center pt-3">
-					<a>
-						<img
-						src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
-						name="aboutme" width="120" height="120" class="rounded-circle">
+          <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+					<a (click)="fileUpload.click()" class="cursor-pointer">
+            <ng-container *ngIf="user.imageUrl != null;else elseBlock">
+              <img
+              src="{{user.imageUrl}}"
+              name="aboutme" width="120" height="120" class="rounded-circle">
+            </ng-container>
+						<ng-template #elseBlock>
+            <i class="fa-solid fa-user"></i>
+            </ng-template>
 					</a>
 				</div>
 				<div class="card-body">
-					<div class="h4 text-center mb-3">@{{form.value?.userName}}</div>
-					<div class="h7 text-bold pb-1"><b>Nome:</b> {{form.value?.firstName}} {{form.value?.lastName}}</div>
+					<div class="h4 text-center mb-3">@{{user.userName}}</div>
+					<div class="h7 text-bold pb-1"><b>Nome:</b> {{user.firstName}} {{user.lastName}}</div>
 					<div class="h7">
-						{{form.value?.description}}
+            {{user.description}}
 					</div>
 				</div>
 				<ul class="list-group list-group-flush">
@@ -36,145 +41,32 @@
 			</div>
 		</div>
 		<div class="col-lg-9">
-			<div class="form-row">
-				<div class="form-group col-12">
-					<h3 class="border-bottom">Detalhe Perfil</h3>
-				</div>
-				<div class="form-group col">
-					<label>T&iacute;tulo</label>
-					<select class="form-control" formControlName="userGrade">
-						<option value=""></option>
-						<option value="NaoInformado">N&atilde;o Quero</option>
-						<option value="Tecnologo">Tecn&oacute;logo(a)</option>
-						<option value="Bacharel">Bacharel</option>
-						<option value="Especialista">Especialista</option>
-						<option value="PosGraduado">P&oacute;s Graduado(a)</option>
-						<option value="Mestrado">Mestre</option>
-						<option value="Doutorado">Doutor(a)</option>
-						<option value="PosDoutorado">P&oacute;s Doc</option>
-					</select>
-				</div>
-				<div class="form-group col-sm-5">
-					<label>Nome</label>
-					<input type="text" class="form-control" formControlName="firstName" />
-            <div *ngIf="form.get('firstName')?.invalid && (form.get('firstName')?.dirty || form.get('firstName')?.touched)"
-                class="alert alert-danger">
-                Nome
-              <div *ngIf="form.get('firstName')?.errors?.['required']" class="d-inline">
-                &eacute; obrigat&oacute;rio
-              </div>
-              <div *ngIf="form.get('firstName')?.errors?.['minlength']" class="d-inline">
-                deve ter pelo menos 3 caracteres.
-              </div>
-              <div *ngIf="form.get('firstName')?.errors?.['maxlength']" class="d-inline">
-                deve ter no m&aacute;ximo 16 caracteres
-              </div>
-            </div>
-				</div>
-				<div class="form-group col-sm-5">
-					<label>Sobrenome</label>
-					<input type="text" class="form-control" formControlName="lastName" />
-          <div *ngIf="form.get('lastName')?.invalid && (form.get('lastName')?.dirty || form.get('lastName')?.touched)"
-          class="alert alert-danger">
-        Sobrenome
-        <div *ngIf="form.get('lastName')?.errors?.['required']" class="d-inline">
-            &eacute; obrigat&oacute;rio
+      <tabset>
+        <tab heading="Perfil" id="tab1">
+          <div class="form-group col-12 mt-2">
+            <h3 class="border-bottom">Detalhe Perfil</h3>
           </div>
-          <div *ngIf="form.get('lastName')?.errors?.['minlength']" class="d-inline">
-            deve ter pelo menos 3 caracteres.
+          <app-perfil-detalhe (formChangeValue)="changeValue($event)"></app-perfil-detalhe>
+
+        </tab>
+        <tab heading="Palestrante" [disabled]="!isPalestrante">
+          <div class="form-group col-12 mt-2">
+            <h3 class="border-bottom">Palestrante</h3>
           </div>
-          <div *ngIf="form.get('lastName')?.errors?.['maxlength']" class="d-inline">
-            deve ter no m&aacute;ximo 16 caracteres
+          <ng-container *ngIf="isPalestrante">
+            <app-palestrante-detalhe></app-palestrante-detalhe>
+          </ng-container>
+        </tab>
+        <tab heading="Redes Sociais" [disabled]="!isPalestrante">
+          <div class="form-group col-12 mt-2">
+            <h3 class="border-bottom">Redes sociais</h3>
           </div>
-        </div>
-				</div>
-			</div>
-			<div class="form-row">
-				<div class="form-group col-sm-5">
-					<label>E-mail</label>
-					<input type="text" class="form-control" formControlName="email" />
-          <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)"
-          class="alert alert-danger">
-          Email
-          <div *ngIf="form.get('email')?.errors?.['required']" class="d-inline">
-            &eacute; obrigat&oacute;rio
-          </div>
-          <div *ngIf="form.get('email')?.errors?.['email']" class="d-inline">
-            &eacute; inv&aacute;lido.
-          </div>
-          <!-- <div *ngIf="form.get('email')?.errors?.['maxlength']" class="d-inline">
-            deve ter no máximo 16 caracteres
-          </div> -->
-        </div>
-				</div>
-				<div class="form-group col-sm-4">
-					<label>Telefone</label>
-					<input type="text" class="form-control" formControlName="phoneNumber" />
-          <div *ngIf="form.get('phoneNumber')?.invalid && (form.get('phoneNumber')?.dirty || form.get('phoneNumber')?.touched)"
-          class="alert alert-danger">
-            Telefone
-            <div *ngIf="form.get('phoneNumber')?.errors?.['required']" class="d-inline">
-              &eacute; obrigat&oacute;rio
-            </div>
-            <!-- <div *ngIf="form.get('nome')?.errors?.['minlength']" class="d-inline">
-              deve ter pelo menos 3 caracteres.
-            </div>
-            <div *ngIf="form.get('nome')?.errors?.['maxlength']" class="d-inline">
-              deve ter no máximo 16 caracteres
-            </div> -->
-          </div>
-				</div>
-				<div class="form-group col-sm">
-					<label>Fun&ccedil;&atilde;o</label>
-					<select class="form-control" formControlName="userType">
-						<option value=""></option>
-            <option value="NaoInformado">Não Quero</option>
-						<option value="Participante">Participante</option>
-						<option value="Palestrante">Palestrante</option>
-					</select>
-          <div *ngIf="form.get('userType')?.invalid && (form.get('userType')?.dirty || form.get('userType')?.touched)"
-          class="alert alert-danger">
-            Fun&ccedil;&atilde;o
-            <div *ngIf="form.get('userType')?.errors?.['required']" class="d-inline">
-              &eacute; obrigat&oacute;rio
-            </div>
-            <!-- <div *ngIf="form.get('nome')?.errors?.['minlength']" class="d-inline">
-              deve ter pelo menos 3 caracteres.
-            </div>
-            <div *ngIf="form.get('nome')?.errors?.['maxlength']" class="d-inline">
-              deve ter no máximo 16 caracteres
-            </div> -->
-          </div>
-				</div>
-				<div class="form-group col-12">
-					<label>Descri&ccedil;&atilde;o</label>
-					<input type="text" class="form-control" formControlName="description" />
-				</div>
-			</div>
-			<div>
-				<h3 class="pt-3 border-bottom">Mudar Senha</h3>
-				<p>Caso mude de senha, preencha os campos abaixo:</p>
-			</div>
-			<div class="form-row">
-				<div class="form-group col-sm">
-					<label>Senha</label>
-					<input type="password" class="form-control" formControlName="password" />
-				</div>
-				<div class="form-group col-sm">
-					<label>Confirmar Senha</label>
-					<input type="password" class="form-control" formControlName="confirm_password" />
-				</div>
-			</div>
+          <ng-container *ngIf="isPalestrante">
+            <app-redessociais></app-redessociais>
+          </ng-container>
+        </tab>
+      </tabset>
+
 		</div>
 	</div>
-	<div class="card-footer">
-		<div class="d-flex">
-			<button class="btn btn-outline-secondary mr-auto border" (click)="form.reset()">
-				Cancelar Altera&ccedil;&atilde;o
-			</button>
-			<button class="btn btn-success" (click)="updateUser()">
-				Salvar Altera&ccedil;&atilde;o
-			</button>
-		</div>
-	</div>
-</form>
+

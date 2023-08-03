@@ -63,6 +63,13 @@ export class AccountService{
     }));
   }
 
+  public uploadImage(file: File): Observable<void>
+  {
+    const formData = new FormData();
+    formData.append("file", file);
+    return this.http.post<void>(`${this.baseUrl}/image`, formData).pipe(take(1));
+  }
+
   public isLogged(): boolean
   {
     return localStorage.getItem('user') != null;

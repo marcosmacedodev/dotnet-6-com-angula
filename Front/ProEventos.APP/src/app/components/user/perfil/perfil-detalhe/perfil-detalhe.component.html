@@ -1,0 +1,104 @@
+<form [formGroup]="form">
+<div class="form-row">
+
+  <div class="form-group col">
+    <label>T&iacute;tulo</label>
+    <select class="form-control" formControlName="userGrade">
+      <option value="NaoInformado">N&atilde;o Informado</option>
+      <option value="Tecnologo">Tecn&oacute;logo(a)</option>
+      <option value="Bacharel">Bacharel</option>
+      <option value="Especialista">Especialista</option>
+      <option value="PosGraduado">P&oacute;s Graduado(a)</option>
+      <option value="Mestrado">Mestre</option>
+      <option value="Doutorado">Doutor(a)</option>
+      <option value="PosDoutorado">P&oacute;s Doc</option>
+    </select>
+  </div>
+  <div class="form-group col-sm-5">
+    <label>Nome</label>
+    <input type="text" class="form-control" formControlName="firstName" />
+  </div>
+  <div class="form-group col-sm-5">
+    <label>Sobrenome</label>
+    <input type="text" class="form-control" formControlName="lastName" />
+    <div *ngIf="form.get('lastName')?.invalid && (form.get('lastName')?.dirty || form.get('lastName')?.touched)"
+    class="alert alert-danger">
+  Sobrenome
+  <div *ngIf="form.get('lastName')?.errors?.['required']" class="d-inline">
+      &eacute; obrigat&oacute;rio
+    </div>
+    <div *ngIf="form.get('lastName')?.errors?.['minlength']" class="d-inline">
+      deve ter pelo menos 3 caracteres.
+    </div>
+    <div *ngIf="form.get('lastName')?.errors?.['maxlength']" class="d-inline">
+      deve ter no m&aacute;ximo 16 caracteres
+    </div>
+  </div>
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group col-sm-5">
+    <label>E-mail</label>
+    <input type="text" class="form-control" formControlName="email" />
+    <div *ngIf="form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)"
+    class="alert alert-danger">
+    Email
+    <div *ngIf="form.get('email')?.errors?.['required']" class="d-inline">
+      &eacute; obrigat&oacute;rio
+    </div>
+    <div *ngIf="form.get('email')?.errors?.['email']" class="d-inline">
+      &eacute; inv&aacute;lido.
+    </div>
+    <!-- <div *ngIf="form.get('email')?.errors?.['maxlength']" class="d-inline">
+      deve ter no máximo 16 caracteres
+    </div> -->
+  </div>
+  </div>
+  <div class="form-group col-sm-4">
+    <label>Telefone</label>
+    <input type="text" class="form-control" formControlName="phoneNumber" />
+  </div>
+  <div class="form-group col-sm">
+    <label>Fun&ccedil;&atilde;o</label>
+    <select class="form-control" formControlName="userType">
+      <option value="NaoInformado">Não Informado</option>
+      <option value="Participante">Participante</option>
+      <option value="Palestrante">Palestrante</option>
+    </select>
+  </div>
+  <div class="form-group col-12">
+    <label>Descri&ccedil;&atilde;o</label>
+    <input type="text" class="form-control" formControlName="description" />
+  </div>
+</div>
+<div>
+  <h3 class="pt-3 border-bottom">Mudar Senha</h3>
+  <p>Caso mude de senha, preencha os campos abaixo:</p>
+</div>
+<div class="form-row">
+  <div class="form-group col-sm">
+    <label>Senha</label>
+    <input type="password" class="form-control" formControlName="password" />
+  </div>
+  <div class="form-group col-sm">
+    <label>Confirmar Senha</label>
+    <input type="password" class="form-control" formControlName="confirm_password" />
+  </div>
+</div>
+
+<div class="card-footer">
+  <div class="d-flex pt-3">
+    <div class="p-0 flex-grow-1">
+      <button class="btn btn-outline-secondary mr-auto border" (click)="form.reset()">
+        Cancelar Altera&ccedil;&atilde;o
+      </button>
+    </div>
+    <div class="p-0">
+      <button class="btn btn-success" (click)="updateUser()">
+        Salvar Altera&ccedil;&atilde;o
+      </button>
+    </div>
+  </div>
+</div>
+
+</form>

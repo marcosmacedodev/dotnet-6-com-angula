@@ -1,0 +1,58 @@
+<div class="d-flex">
+  <div class="p-2 flex-shrink-1 d-none d-md-inline"><label label class="col-form-label">Filtro:</label></div>
+  <div class="p-2 w-100">
+      <div class="col-sm-12 col-md-12">
+        <input class="form-control mr-2" type="search" placeholder="Buscar" aria-label="Search">
+      </div>
+  </div>
+  <div class="p-2 flex-shrink-2">
+    <a class="btn btn-outline-success" routerLink="../detalhe">Novo</a>
+  </div>
+</div>
+
+<div *ngIf="palestrantes && palestrantes.length" class="row mt-2">
+  <div class="col-md-4 mb-4 d-flex align-items-stretch" *ngFor="let palestrante of palestrantes">
+
+    <div class="card">
+      <div class="card-header"></div>
+      <div class="d-flex align-self-center pt-3">
+          <ng-container *ngIf="palestrante.user.imageUrl != null;else elseBlock">
+            <img
+            src="{{palestrante.user.imageUrl}}"
+             width="120" height="120" class="rounded-circle">
+          </ng-container>
+          <ng-template #elseBlock>
+          <i class="fa-solid fa-user"></i>
+          </ng-template>
+      </div>
+      <div class="card-body">
+        <div class="h4 text-center mb-3">@{{palestrante.user.userName}}</div>
+        <div class="h7 text-bold pb-1"><b>Nome:</b> {{palestrante.user.firstName}} {{palestrante.user.lastName}}</div>
+        <div class="h7">
+          {{palestrante.miniCurriculo}}
+        </div>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-6 text-center border-right">
+              <div class="h5">1342</div>
+              <div class="h6 text-muted">Eventos Ministrados</div>
+            </div>
+            <div class="col-6 text-center">
+              <div class="h5">1342</div>
+              <div class="h6 text-muted">Eventos Participados</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div class="card-footer"></div>
+    </div>
+
+
+  </div>
+</div>
+
+<ng-container *ngIf="page.totalPages > 1">
+  <pagination [totalItems]="page.totalCount" (numPages)="page.totalPages" [itemsPerPage]="page.pageSize" (pageChanged)="pageChanged($event)"></pagination>
+</ng-container>

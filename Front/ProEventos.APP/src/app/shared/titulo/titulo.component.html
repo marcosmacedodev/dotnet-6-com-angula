@@ -1,15 +1,18 @@
 
-<div class="d-flex p-3 my-3 rounded shadow-sm">
-  <div class="d-flex align-items-center mr-auto">
-    <i class="{{icone}} mr-3"></i>
-    <div class="lh-1">
-      <h2 class="mb-0">{{titulo}}</h2>
-      <small>{{subtitulo}}</small>
+  <div class="d-flex my-2">
+    <div class="flex-grow-1">
+      <div class="d-flex align-items-center">
+        <i class="{{icone}}"></i>
+        <div class="lh-1 mx-2">
+          <h2 class="">{{titulo}}</h2>
+          <small>{{subtitulo}}</small>
+        </div>
+      </div>
+    </div>
+    <div class="">
+      <div *ngIf="exibirBotaoListar">
+        <a routerLink="lista" class="btn btn-outline-light">Listar {{titulo}}</a>
+      </div>
     </div>
   </div>
 
-  <div *ngIf="exibirBotaoListar">
-    <a routerLink="lista" class="btn btn-outline-light">Listar {{titulo}}</a>
-  </div>
-
-</div>

@@ -56,10 +56,13 @@ namespace ProEventos.Application.Services
             try
             {
                 Evento entity = _mapper.Map<Evento>(eventoDto);
+                entity.Id = eventoId;
+                entity.UserId = userId;
                 _repository.Update<Evento>(entity);
                 if (await _repository.SaveChangesAsync())
                 {
-                    return await GetEventoByIdAsync(userId, eventoId);
+                    entity = await _repositoryEvento.GetEventoByIdAsync(userId, eventoId, false);
+                    return _mapper.Map<EventoDto>(entity);
                 }
                 return null;
             }

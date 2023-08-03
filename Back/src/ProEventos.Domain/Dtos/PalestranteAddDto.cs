@@ -7,7 +7,6 @@ namespace ProEventos.Domain.Dtos
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        [Required( ErrorMessage = Messages.REQUIRED)]
         public string MiniCurriculo { get; set; }
     }
 }

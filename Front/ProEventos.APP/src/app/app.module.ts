@@ -16,6 +16,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 //-------------------------Components-------------------------------------------------//
 import { AppComponent } from './app.component';
 import { EventosComponent } from './components/eventos/eventos.component';
@@ -32,6 +33,10 @@ import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
 import { HomeComponent } from './components/home/home.component';
+import { PerfilDetalheComponent } from './components/user/perfil/perfil-detalhe/perfil-detalhe.component';
+import { PalestranteListaComponent } from './components/palestrantes/palestrante-lista/palestrante-lista.component';
+import { PalestranteDetalheComponent } from './components/palestrantes/palestrante-detalhe/palestrante-detalhe.component';
+import { RedessociaisComponent } from './components/redessociais/redessociais.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +55,10 @@ import { HomeComponent } from './components/home/home.component';
       LoginComponent,
       RegistrationComponent,
       HomeComponent,
+      PerfilDetalheComponent,
+      PalestranteListaComponent,
+      PalestranteDetalheComponent,
+      RedessociaisComponent,
    ],
   imports: [
     BrowserModule,
@@ -65,7 +74,8 @@ import { HomeComponent } from './components/home/home.component';
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),
     ToastrModule.forRoot({positionClass: 'toast-bottom-right',
-    preventDuplicates: true})
+    preventDuplicates: true}),
+    TabsModule.forRoot()
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],

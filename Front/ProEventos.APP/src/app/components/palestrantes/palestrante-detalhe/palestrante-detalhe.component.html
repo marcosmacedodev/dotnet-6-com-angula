@@ -1,0 +1,7 @@
+<form [formGroup]="form">
+  <div class="form-group">
+    <label for="">Minicurrículo</label>
+    <textarea formControlName="miniCurriculo" class="form-control" [ngClass]="{'is-invalid': !form.valid}"></textarea>
+    <small [ngClass]="corDaDescricao">{{situacaoDoForm}}</small>
+  </div>
+</form>

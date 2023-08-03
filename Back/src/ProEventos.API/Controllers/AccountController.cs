@@ -16,7 +16,6 @@ namespace ProEventos.API.Controllers
         private readonly IAccountService _accountService;
         private readonly ITokenService _tokenService;
         private readonly IUtilService _utilService;
-
         private readonly string _folder = "Images";
         public AccountController(IAccountService accountService, ITokenService tokenService, IUtilService utilService)
         {
@@ -28,10 +27,12 @@ namespace ProEventos.API.Controllers
         [HttpGet("user")]
         public async Task<IActionResult> GetUser()
         {
-           string userName = User.GetUserName();
-           UserUpdateDto user = await _accountService.GetUserByUserNameAsync(userName);
-           if (user == null) return Unauthorized();
-           return Ok(user);
+            string userName = User.GetUserName();
+            UserUpdateDto user = await _accountService.GetUserByUserNameAsync(userName);
+            if (user == null) return Unauthorized();
+            if(user.ImageUrl != null)
+                user.ImageUrl = $"{(Request.IsHttps? "https": "http")}://{Request.Host.Value}/resources/{_folder}/{user.ImageUrl}";
+            return Ok(user);
         }
 
         [HttpPost("createuser")]
@@ -76,42 +77,20 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpPost("image")]
-        public async Task<IActionResult> UploadImage(IFormFile file){
-            
+        public async Task<IActionResult> UploadImage(IFormFile file)
+        {
             UserUpdateDto userUpdateDto = await _accountService.GetUserByUserNameAsync(User.GetUserName());
             if (userUpdateDto == null) return Unauthorized();
             if (file.Length > 0)
             {
                  _utilService.DeleteImage(userUpdateDto.ImageUrl, "images");
-                 string path = await _utilService.SaveImage(file, "images");
-                 string fullPath =  $"{(Request.IsHttps? "https": "http")}://{Request.Host.Value}/resources/images/{path}";
-                 userUpdateDto.ImageUrl = path;
+                 string fileName = await _utilService.SaveImage(file, "images");
+                 string fullPath = $"{(Request.IsHttps? "https": "http")}://{Request.Host.Value}/resources/images/{fileName}";
+                 userUpdateDto.ImageUrl = fileName;
                  await _accountService.UpdateAccountAsync(userUpdateDto);
                  return Created(fullPath, NoContent());
             }
             return BadRequest($"Erro ao tentar fazer upload de imagem para account Id: {userUpdateDto.Id}");
         }
-
-        [HttpGet("image")]
-        public async Task<IActionResult> GetImage()
-        {
-            string userName = User.GetUserName();
-            UserUpdateDto userUpdateDto = await _accountService.GetUserByUserNameAsync(userName);
-            if (userUpdateDto == null) return Unauthorized();
-            string fileName = userUpdateDto.ImageUrl;
-            string fullPath =  $"{(Request.IsHttps? "https": "http")}://{Request.Host.Value}/resources/{_folder}/{fileName}";
-            return Ok(new {
-                Protocol = Request.Protocol?.ToLower(),
-                IsHttps = Request.IsHttps,
-                Host = Request.Host.Value?.ToLower(),
-                Port = Request.Host.Port,
-                Directory = @$"resources/{_folder}"?.ToLower(),
-                FileName = fileName?.ToLower(), 
-                FullPath = fullPath?.ToLower()
-            });
-            
-            //return BadRequest($"Erro ao tentar fazer upload de imagem para account Id: {userUpdateDto.Id}");
-        }
     }
-
 }

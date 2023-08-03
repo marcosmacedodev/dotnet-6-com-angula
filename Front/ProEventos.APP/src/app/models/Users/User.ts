@@ -10,4 +10,5 @@ export interface User {
     description : string;
     password : string;
     token : string;
+    imageUrl: string;
 }

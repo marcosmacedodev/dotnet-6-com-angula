@@ -70,9 +70,8 @@ namespace ProEventos.API.Controllers
             int userId = User.GetUserId();
             EventoDto entity = await _service.GetEventoByIdAsync(userId, eventoId);
             if (entity == null) return NotFound();
-            eventoDto.Id = eventoId;
-            await _service.UpdateEvento(userId, eventoId, eventoDto);
-            return NoContent();
+            eventoDto = await _service.UpdateEvento(userId, eventoId, eventoDto);
+            return Ok(eventoDto);
         }
 
         [HttpDelete("{eventoId}")]

@@ -14,7 +14,7 @@ import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 })
 export class EventoListaComponent {
 
-  public page: PageModel<Evento> = {pageSize: 3} as PageModel<Evento>;
+  private _page: PageModel<Evento> = {pageSize: 3} as PageModel<Evento>;
   private modalRef?: BsModalRef;
 
   constructor(
@@ -24,8 +24,16 @@ export class EventoListaComponent {
     private spinner: NgxSpinnerService
     ){}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getEventos();
+  }
+
+  public get page(): PageModel<Evento>{
+    return this._page;
+  }
+
+  public get eventos(): Evento[]{
+    return this._page.items;
   }
 
   private deleteEvento(eventoId: number): void{
@@ -33,10 +41,10 @@ export class EventoListaComponent {
     this.eventoService.deleteEvento(eventoId).subscribe({
       next: (response: Evento) => {
         this.getEventos();
-        this.toastr.success(`Código de evento: ${eventoId}, removido`, 'Excluir');
+        this.toastr.success(`Código de evento: ${eventoId}, removido`);
       },
       error: (err) => {
-        this.toastr.error(err.message, err.statusText);
+        this.toastr.error(`Erro ao excluir evento id ${eventoId}`);
         console.error(err);
       },
       complete: () => {}
@@ -57,18 +65,18 @@ export class EventoListaComponent {
   }
 
   public pageChanged(event: PageChangedEvent): void {
-    this.page.pageNumber = event.page;
+    this._page.pageNumber = event.page;
     this.getEventos();
   }
 
   private getEventos(): void{
     this.spinner.show();
-    this.eventoService.getEventos(this.page).subscribe({
+    this.eventoService.getEventos(this._page).subscribe({
       next : (response) => {
-        this.page = response;
+        this._page = response;
       },
       error: (err) => {
-        this.toastr.error(err.message, err.statusText);
+        this.toastr.error(`Erro ao carregar eventos`);
         console.error(err);
       },
       complete: () => console.info('complete')

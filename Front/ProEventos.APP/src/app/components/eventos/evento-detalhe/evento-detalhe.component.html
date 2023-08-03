@@ -1,6 +1,4 @@
-
-
-<form [formGroup]="form">
+<form [formGroup]="form" (submit)="saveEvento()">
   <div class="p-3">
     <div class="form-row">
       <div class="form-group col-md-12">
@@ -132,26 +130,29 @@
 
   </div>
   <div class="card-footer">
-    <div class="d-flex">
-      <button class="btn btn-outline-secondary mr-auto border" (click)="form.reset()">
-        Cancelar Alteração
-      </button>
-      <button class="btn btn-success" [disabled]="!form.valid" (click)="saveEvento()">
-        <!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
-        Salvar Evento
-      </button>
+    <div class="d-flex p-3">
+      <div class="p-0 flex-grow-1">
+        <button class="btn btn-outline-secondary mr-auto border" (click)="form.reset()">
+          Cancelar Altera&ccedil;&atilde;o
+        </button>
+      </div>
+      <div class="p-0">
+        <button type="submit" class="btn btn-success" [disabled]="!form.valid">
+          Salvar Evento
+        </button>
+      </div>
     </div>
   </div>
 </form>
 
-<div class="card rounded shadow-sm mt-4" *ngIf="visibleLote">
+<div class="card rounded shadow-sm mt-4" *ngIf="enabled">
   <div class="p-3">
     <div class="d-flex border-bottom">
-      <h2 class="mr-auto">
-        Lotes do Evento
-      </h2>
       <h2>
         <i class="fas fa-money-bill-wave"></i>
+      </h2>
+      <h2 class="mx-2">
+        Lotes do Evento
       </h2>
     </div>
     <p>Clique em Lote para adicionar e preencher novos Lotes</p>
@@ -227,14 +228,36 @@
     <b class="ml-1">Lote</b>
   </button>
 </div>
-<div class="card-footer">
+<div class="card-footer" *ngIf="lotes && lotes.length">
   <div class="d-flex">
-    <button class="btn btn-outline-secondary mr-auto border">
-      Cancelar Alteração
-    </button>
-    <button class="btn btn-success" [disabled]="!lotes.valid" (click)="saveLotes()">
-      Salvar Lotes
-    </button>
+    <div class="p-0 flex-grow-1">
+      <button class="btn btn-outline-secondary mr-auto border" (click)="form.reset()">
+        Cancelar Altera&ccedil;&atilde;o
+      </button>
+    </div>
+    <div class="p-0">
+      <button class="btn btn-success" [disabled]="!lotes.valid" (click)="saveLotes()">
+        Salvar
+      </button>
+    </div>
   </div>
 </div>
+</div>
+
+<div class="card rounded shadow-sm mt-4 mb-4" *ngIf="enabled">
+  <div class="p-3">
+    <div class="d-flex border-bottom">
+      <h2>
+        <i class="fa-brands fa-twitter"></i>
+      </h2>
+      <h2 class="mx-2">
+        Redes sociais
+      </h2>
+
+    </div>
+    <p>Clique em Rede social para adicionar e preencher novas redes sociais</p>
+    <div *ngIf="form.value && form.value?.id">
+      <app-redessociais [eventoId]="form.value.id"></app-redessociais>
+    </div>
+  </div>
 </div>

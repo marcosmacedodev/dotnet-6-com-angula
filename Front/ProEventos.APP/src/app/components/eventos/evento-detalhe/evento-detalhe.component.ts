@@ -20,8 +20,8 @@ export class EventoDetalheComponent implements OnInit {
 
   private _form!: FormGroup;
   private locale = 'pt-br';
-  private modalRef?: BsModalRef;
-  private _visible = false;
+  private _modalRef?: BsModalRef;
+  private _enable = false;
 
   constructor(private fb: FormBuilder,
     private localeService: BsLocaleService,
@@ -42,17 +42,18 @@ export class EventoDetalheComponent implements OnInit {
 
   openModal(template: TemplateRef<any>)
   {
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    this._modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
   confirm(index: number, lote: Lote): void
   {
-    this.modalRef?.hide();
+    this._modalRef?.hide();
     if(lote.eventoId)
     {
       this.deleteLote(lote.eventoId, lote.id, index);
     }
   }
+
 
   removeItem(index: number): void
   {
@@ -61,7 +62,7 @@ export class EventoDetalheComponent implements OnInit {
 
   decline(): void
   {
-    this.modalRef?.hide();
+    this._modalRef?.hide();
     this.toastr.show("Ação cancelada pelo usuário.")
   }
 
@@ -77,15 +78,11 @@ export class EventoDetalheComponent implements OnInit {
     }
   }
 
-  public get visibleLote(): boolean
+  public get enabled(): boolean
   {
-    return this._visible;
+    return this._enable;
   }
 
-  public set visibleLote(value : boolean)
-  {
-    this._visible = value;
-  }
 
   private loadEvento(): void
   {
@@ -96,7 +93,7 @@ export class EventoDetalheComponent implements OnInit {
       this.eventoService.getEventoById(+eventoIdParam).subscribe({
         next: (evento: Evento) => {
           this._form.patchValue(evento);
-          this._visible = true;
+          this._enable = true;
           this.loadLotes(evento.id);
           this.toastr.success("Evento carregado");
         },
@@ -240,9 +237,12 @@ export class EventoDetalheComponent implements OnInit {
     this.spinner.show();
     this.loteService.getLotesByEventoId(eventoId).subscribe({
       next: (lotes: Lote[]) => {
-        lotes.forEach((value: Lote) =>{
-          this.loadLote(value);
-        });
+        if(lotes && lotes.length)
+        {
+          lotes.forEach((value: Lote) =>{
+            this.loadLote(value);
+          });
+        }
       },
       error: (err) => {
         this.toastr.error(err.message, err.statusText);

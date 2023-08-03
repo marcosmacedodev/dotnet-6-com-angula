@@ -36,7 +36,7 @@ namespace ProEventos.Application.Services
             if(userUpdate.ImageUrl != null) user.ImageUrl = userUpdate.ImageUrl;
             if(userUpdate.PhoneNumber != null) user.PhoneNumber = userUpdate.PhoneNumber;
             if(userUpdate.UserGrade != null) user.UserGrade = Enum.TryParse<UserGrade>(userUpdate.UserGrade, true, out userGrade)? userGrade: UserGrade.NaoInformado;
-            if(userUpdate.UserType != null) user.UserType = Enum.TryParse<UserType>(userUpdate.UserGrade, true, out userType)? userType: UserType.NaoInformado;
+            if(userUpdate.UserType != null) user.UserType = Enum.TryParse<UserType>(userUpdate.UserType, true, out userType)? userType: UserType.NaoInformado;
         }
 
         public async Task<SignInResult> CheckUserPasswordAsync(UserUpdateDto userUpdateDto, string password)
@@ -57,9 +57,9 @@ namespace ProEventos.Application.Services
             try
             {
                 User entity = _mapper.Map<User>(userDto);
-                IdentityResult result = await _userManager.CreateAsync(entity, userDto.Password);
                 entity.UserGrade = UserGrade.NaoInformado;
                 entity.UserType = UserType.NaoInformado;
+                IdentityResult result = await _userManager.CreateAsync(entity, userDto.Password);
                 if(result.Succeeded)
                 {
                     entity = await _repositoryUser.GetUserByUserNameAsync(userDto.UserName);

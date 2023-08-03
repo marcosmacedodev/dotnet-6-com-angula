@@ -1,16 +1,18 @@
-<div class="row g-3 mb-3" role="search">
-  <div class="col-auto d-none d-md-inline">
-  <label class="col-form-label">Filtro:</label>
+
+<div class="d-flex">
+  <div class="p-2 flex-shrink-1 d-none d-md-inline"><label label class="col-form-label">Filtro:</label></div>
+  <div class="p-2 w-100">
+      <div class="col-sm-12 col-md-12">
+        <input class="form-control mr-2" type="search" placeholder="Buscar" aria-label="Search">
+      </div>
   </div>
-  <div class="col-sm-12 col-md-4">
-    <input class="form-control mr-2" type="search" placeholder="Buscar" aria-label="Search">
-  </div>
-  <div class="col-1">
+  <div class="p-2 flex-shrink-2">
     <a class="btn btn-outline-success" routerLink="../detalhe">Novo</a>
   </div>
 </div>
+
 <table class="table table-striped table-responsive">
-  <thead class="table-dark">
+  <thead class="table">
     <tr>
       <th>#</th>
       <th class="d-none d-md-table-cell">Imagem</th>
@@ -22,8 +24,8 @@
       <th>Opções</th>
     </tr>
   </thead>
-  <tbody *ngIf="page?.items && page?.items?.length">
-    <tr *ngFor="let evento of page?.items">
+  <tbody *ngIf="eventos && eventos.length">
+    <tr *ngFor="let evento of eventos">
       <td>{{evento.id}}</td>
       <td class="d-none d-md-table-cell"><img src="{{evento.imagemUrl}}" width="128" height="96" /> </td>
       <td>{{evento.tema}}</td>
@@ -44,7 +46,12 @@
       </ng-template>
     </tr>
   </tbody>
+
 </table>
-<pagination [totalItems]="page.totalCount" (numPages)="page.totalPages" [itemsPerPage]="page.pageSize" (pageChanged)="pageChanged($event)"></pagination>
+
+<ng-container *ngIf="page.totalPages > 1">
+  <pagination [totalItems]="page.totalCount" (numPages)="page.totalPages" [itemsPerPage]="page.pageSize" (pageChanged)="pageChanged($event)"></pagination>
+</ng-container>
+
 
 

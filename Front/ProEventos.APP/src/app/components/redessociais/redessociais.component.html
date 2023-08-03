@@ -1,0 +1,67 @@
+<div class="form-row p-1">
+      <div [formGroup]="form" class="col">
+        <div formArrayName="redesSociais" *ngFor="let redeSocial of redesSociais.controls let i=index" class="mb-2">
+          <fieldset [formGroupName]="i" class="form-group">
+            <legend class="d-flex justify-content-between capitalize">
+              <button class="p-2 btn btn-sm btn-outline-warning mb-1 d-flex" (click)="redeSocial.value?.id? openModal(template): removeItem(i)">
+              <i class="fa fa-window-close my-1"></i>
+              <b class="ml-1 d-none d-sm-block">Excluir </b>
+            </button>
+            <ng-template #template>
+              <div class="modal-body text-center">
+                <p>Deseja remover rede social {{redeSocial.value?.id}}?</p>
+                <p>Isso poderá remove-lo da base de dados.</p>
+                <button type="button" class="btn btn-default" (click)="confirm(i, redeSocial.value)" >Sim</button>
+                <button type="button" class="btn btn-primary" (click)="decline()">Não</button>
+              </div>
+            </ng-template>
+
+          </legend>
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Nome</label>
+              <input type="text" class="form-control" formControlName="nome" placeholder="Nome">
+              <div *ngIf="redeSocial.get('nome')?.invalid && (redeSocial.get('nome')?.dirty || redeSocial.get('nome')?.touched)"
+              class="alert alert-danger">
+                Nome
+                <div *ngIf="redeSocial.get('nome')?.errors?.['required']" class="d-inline">
+                  é obrigatório
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-8">
+              <label>URL</label>
+              <input type="text" class="form-control" formControlName="url">
+              <div *ngIf="redeSocial.get('url')?.invalid && (redeSocial.get('url')?.dirty || redeSocial.get('url')?.touched)"
+              class="alert alert-danger">
+                URL
+                <div *ngIf="redeSocial.get('url')?.errors?.['required']" class="d-inline">
+                  é obrigatório
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+  <button (click)="adicionarRedeSocial()" class="d-flex btn btn-outline-primary">
+    <i class="fa fa-plus-circle my-1"></i>
+    <b class="ml-1">Rede social</b>
+  </button>
+
+<hr>
+  <div class="d-flex" *ngIf="redesSociais && redesSociais.length">
+    <div class="p-0 flex-grow-1">
+      <button class="btn btn-outline-secondary mr-auto border" (click)="redesSociais.reset()">
+        Cancelar Altera&ccedil;&atilde;o
+      </button>
+    </div>
+    <div class="p-0">
+      <button class="btn btn-success" (click)="saveRedesSociais()" [disabled]="!form.valid">
+        Salvar
+      </button>
+    </div>
+  </div>
+
+
